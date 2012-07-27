@@ -1,0 +1,392 @@
+<Maratis>
+
+<ArmatureAnim num="35">
+
+	<Bone id="0">
+		<position num="1">
+			<k t="250" x="-0.269255" y="-4.264494" z="0.767388" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-13.570883" y="-172.868698" z="-10.017605" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="0.045578" y="0.045578" z="0.045578" />
+		</scale>
+	</Bone>
+	<Bone id="1">
+		<position num="1">
+			<k t="250" x="-0.000000" y="0.753240" z="0.000002" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-152.824799" y="0.000000" z="-0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="2">
+		<position num="1">
+			<k t="250" x="-0.000001" y="0.730088" z="0.000000" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-103.305260" y="0.000000" z="0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="3">
+		<position num="1">
+			<k t="250" x="-0.000000" y="0.753240" z="0.000002" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-13.869948" y="-179.999985" z="0.000002" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="4">
+		<position num="1">
+			<k t="250" x="-0.383176" y="-4.244480" z="0.784689" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-13.503387" y="-170.317337" z="-9.915053" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="0.045578" y="0.045578" z="0.045578" />
+		</scale>
+	</Bone>
+	<Bone id="5">
+		<position num="1">
+			<k t="250" x="0.000001" y="0.753248" z="0.000002" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-152.824799" y="0.000000" z="-0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="6">
+		<position num="1">
+			<k t="250" x="-0.000002" y="0.730096" z="0.000000" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-103.305260" y="-0.000000" z="-0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="7">
+		<position num="1">
+			<k t="250" x="0.000001" y="0.753248" z="0.000002" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-13.869948" y="-179.999985" z="0.000002" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="8">
+		<position num="1">
+			<k t="250" x="-0.270098" y="-4.279360" z="0.851725" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="0.000000" y="-0.000000" z="-9.999990" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="0.045578" y="0.045578" z="0.045578" />
+		</scale>
+	</Bone>
+	<Bone id="9">
+		<position num="1">
+			<k t="250" x="-0.382451" y="-4.259549" z="0.851725" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="0.000000" y="-0.000000" z="-9.999990" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="0.045578" y="0.045578" z="0.045578" />
+		</scale>
+	</Bone>
+	<Bone id="10">
+		<position num="1">
+			<k t="250" x="-0.342193" y="-4.359734" z="0.853432" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="81.208923" y="-0.000000" z="170.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="0.045578" y="0.045578" z="0.045578" />
+		</scale>
+	</Bone>
+	<Bone id="11">
+		<position num="1">
+			<k t="250" x="0.000001" y="1.343515" z="0.000006" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-136.502777" y="0.000001" z="0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="12">
+		<position num="1">
+			<k t="250" x="-0.000000" y="1.416714" z="-0.000005" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="20.488436" y="-0.000000" z="0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="13">
+		<position num="1">
+			<k t="250" x="0.000001" y="1.343515" z="0.000006" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="30.817366" y="0.000001" z="-0.000000" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="14">
+		<position num="1">
+			<k t="250" x="-0.000001" y="2.651564" z="-0.000012" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-4.845436" y="-8.739574" z="4.695026" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="15">
+		<position num="1">
+			<k t="250" x="0.000003" y="2.628037" z="0.000005" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="13.617456" y="-0.203464" z="-3.898084" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="16">
+		<position num="1">
+			<k t="250" x="0.000001" y="3.046469" z="0.000003" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-28.505835" y="-14.695219" z="5.042790" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="17">
+		<position num="1">
+			<k t="250" x="-0.000006" y="2.202001" z="-0.000008" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="76.506660" y="-14.163704" z="1.010094" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="18">
+		<position num="1">
+			<k t="250" x="0.000004" y="1.788426" z="-0.188010" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="4.033418" y="-0.000000" z="0.000001" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="19">
+		<position num="1">
+			<k t="250" x="0.000005" y="1.733489" z="0.003500" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="16.909883" y="-2.071784" z="0.052069" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="20">
+		<position num="1">
+			<k t="250" x="0.000001" y="1.954888" z="0.011777" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="15.028854" y="-1.956089" z="-0.231885" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="21">
+		<position num="1">
+			<k t="250" x="-0.000002" y="0.635698" z="-0.000003" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-4.159378" y="0.000017" z="-0.000002" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="22">
+		<position num="1">
+			<k t="250" x="0.000000" y="0.482666" z="0.000002" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-0.503190" y="-0.000081" z="0.000006" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="23">
+		<position num="1">
+			<k t="250" x="-0.625452" y="1.417413" z="-0.460470" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-0.091995" y="179.470001" z="75.256386" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="24">
+		<position num="1">
+			<k t="250" x="0.625457" y="1.417407" z="-0.460471" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-0.091995" y="-179.470093" z="-75.256393" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="25">
+		<position num="1">
+			<k t="250" x="-2.297225" y="0.839928" z="0.852749" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="127.410950" y="-0.637840" z="-42.471241" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="26">
+		<position num="1">
+			<k t="250" x="-0.000002" y="1.536974" z="0.000000" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-1.328856" y="5.277934" z="-3.734689" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="27">
+		<position num="1">
+			<k t="250" x="-0.000001" y="2.107460" z="0.000001" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="14.017603" y="6.420694" z="-9.195443" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="28">
+		<position num="1">
+			<k t="250" x="2.297225" y="0.839932" z="0.852750" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="154.054337" y="9.687438" z="55.107502" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="29">
+		<position num="1">
+			<k t="250" x="0.000002" y="1.536975" z="-0.000001" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-1.328907" y="-5.277921" z="3.734707" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="30">
+		<position num="1">
+			<k t="250" x="0.000002" y="2.107460" z="0.000004" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="14.017466" y="-6.420860" z="9.195541" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="31">
+		<position num="1">
+			<k t="250" x="-0.586317" y="0.563978" z="1.026929" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="140.705887" y="42.680901" z="-49.615349" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="32">
+		<position num="1">
+			<k t="250" x="0.000003" y="1.553597" z="-0.000002" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-2.526689" y="55.738228" z="-17.607363" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="33">
+		<position num="1">
+			<k t="250" x="0.586318" y="0.563977" z="1.026935" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="130.901566" y="-26.522148" z="68.949936" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+	<Bone id="34">
+		<position num="1">
+			<k t="250" x="0.000001" y="1.553607" z="0.000003" />
+		</position>
+		<rotation num="1">
+			<k t="250" x="-8.656512" y="-53.049686" z="62.978004" />
+		</rotation>
+		<scale num="1">
+			<k t="250" x="1.000000" y="1.000000" z="1.000000" />
+		</scale>
+	</Bone>
+</ArmatureAnim>
+
+</Maratis>

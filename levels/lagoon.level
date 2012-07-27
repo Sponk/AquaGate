@@ -1,0 +1,70 @@
+<Maratis version="3.0">
+
+<Level>
+
+	<properties currentScene="0" />
+
+	<Scene name="Scene-1">
+
+		<script file="../scripts/penguins.lua" />
+		<properties 
+			data="Static"
+			gravity="0.000000 0.000000 0.000000" />
+
+		<Light name="Light0">
+			<active value="true" />
+			<transform 
+				position="0.000000 7.023611 14.470843"
+				rotation="-37.390018 0.000000 0.000000"
+				scale="1.000000 1.000000 1.000000" />
+			<properties 
+				radius="500.000000"
+				color="1.000000 1.000000 1.000000"
+				intensity="2.000000"
+				spotAngle="45.000000"
+				spotExponent="0.000000"
+				shadow="false" />
+		</Light>
+		<Camera name="Camera0">
+			<active value="true" />
+			<transform 
+				parent="Penguin"
+				position="5.980818 -16.708143 9.876124"
+				rotation="75.968185 -0.000000 0.000000"
+				scale="1.000000 1.000000 1.000000" />
+			<properties 
+				clearColor="0.200000 0.300000 0.400000"
+				ortho="false"
+				fov="60.000000"
+				clippingNear="1.000000"
+				clippingFar="1000.000000"
+				fog="false"
+				fogDistance="0.000000" />
+		</Camera>
+		<Entity name="Penguin" file="../meshs/penguin.mesh">
+			<BoundingBox min="-4.485507 -6.864705 -4.969402" max="4.473985 5.575308 10.819089" />
+			<anim id="0" />
+			<active value="true" />
+			<transform 
+				position="0.000000 0.000000 0.000000"
+				rotation="0.000000 -0.000000 0.000000"
+				scale="1.000000 1.000000 1.000000" />
+			<properties 
+				invisible="false" />
+			<physics 
+				shape="Capsule"
+				ghost="false"
+				mass="1.000000"
+				friction="0.500000"
+				restitution="0.000000"
+				linearDamping="0.010000"
+				angularDamping="0.010000"
+				angularFactor="1.000000"
+				linearFactor="1.000000 1.000000 1.000000" />
+		</Entity>
+
+	</Scene>
+
+</Level>
+
+</Maratis>
