@@ -2,6 +2,8 @@
 solution "Tutorial"
 	configurations { "Debug", "Release" }
 	language "C++"
+	
+	local SDKDIR = os.getenv("MSDKDIR")
 
 	-- OS defines
 	if os.is("windows") then
@@ -18,24 +20,26 @@ solution "Tutorial"
 		language "C++"
 		
 		-- make sure we can search and link properly
-		libdirs { os.getenv("MSDKDIR") .. "SDK/MCore/Libs",
-					os.getenv("MSDKDIR") .. "SDK/MEngine/Libs"}
-		includedirs { os.getenv("MSDKDIR") .. "SDK/MCore/Includes",
-					os.getenv("MSDKDIR") .. "SDK/MEngine/Includes",
+		libdirs { SDKDIR .. "/SDK/MCore/Libs",
+					SDKDIR .. "/SDK/MEngine/Libs"}
+		includedirs { SDKDIR .. "/SDK/MCore/Includes",
+					SDKDIR .. "/SDK/MEngine/Includes",
 					"."}
 		
 		-- include all the files, including Maratis SDK ones
 		files {
 			"**.cpp",
 			"**.h",
-			os.getenv("MSDKDIR") .. "SDK/**.h"
+			"../shaders/**",
+			SDKDIR .. "/SDK/**.h"
 		}
 		
 		-- split the files up a bit nicer inside Visual Studio
 		vpaths { 
-			["MCore/*"] = os.getenv("MSDKDIR") .. "SDK/MCore/Includes/**.h",
-			["MEngine/*"] = os.getenv("MSDKDIR") .. "SDK/MEngine/Includes/**.h",
-			["Game/*"] = { "**.h", "**.cpp" }
+			["MCore/*"] = SDKDIR .. "/SDK/MCore/Includes/**.h",
+			["MEngine/*"] = SDKDIR .. "/SDK/MEngine/Includes/**.h",
+			["Game/*"] = { "**.h", "**.cpp" },
+			["Shaders/*"] = { "../shaders/**" }
 		}
 		
 		-- link to Maratis

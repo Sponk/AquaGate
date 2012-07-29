@@ -1,6 +1,5 @@
 #include "Shader.h"
-#include <MCore.h>
-#include <MFileTools.h>
+#include "Util/Util.h"
 #include <MEngine.h>
 
 Shader::Shader(const char* vertexName, const char* fragmentName)
@@ -17,24 +16,26 @@ Shader::Shader(const char* vertexName, const char* fragmentName)
 	getGlobalFilename(pFragmentName, system->getWorkingDirectory(), fragmentName);
 
 	// Load the vertex shader
-	MFile* vertFP = M_fopen(pVertexName, "r");
+	MFile* vertFP = M_fopen(pVertexName, "rb+");
 	M_fseek(vertFP, 0L, SEEK_END);
 	long vsize = M_ftell(vertFP);
 	M_fseek(vertFP, 0L, SEEK_SET);
 
-	char* vertShader = new char[vsize];
+	char* vertShader = new char[vsize+1];
 	M_fread(vertShader, 1, vsize, vertFP);
 	M_fclose(vertFP);
+	vertShader[vsize] = 0;
 
 	// Load the fragment shader
-	MFile* fragFP = M_fopen(pFragmentName, "r");
+	MFile* fragFP = M_fopen(pFragmentName, "rb+");
 	M_fseek(fragFP, 0L, SEEK_END);
 	long fsize = M_ftell(fragFP);
 	M_fseek(fragFP, 0L, SEEK_SET);
 
-	char* fragShader = new char[fsize];
+	char* fragShader = new char[fsize+1];
 	M_fread(fragShader, 1, fsize, fragFP);
 	M_fclose(fragFP);
+	fragShader[fsize] = 0;
 
 	if(MRenderingContext* render = engine->getRenderingContext())
 	{

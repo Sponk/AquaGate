@@ -43,4 +43,15 @@ private:
 	commandVec	m_Commands;
 };
 
+#define INPUT(key, name, press, release) \
+class name##Cmd : public IInputCommand, public Subject \
+{ \
+public: \
+    const char* GetKeyName() { return key; } \
+    const char* GetCommandName() { return #name; } \
+	void		OnKeyPressed() { press; } \
+	void		OnKeyReleased() { release; } \
+}; \
+name##Cmd name;
+
 #endif /*__INPUT_MANAGER_H__*/

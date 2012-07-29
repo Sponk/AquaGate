@@ -10,7 +10,7 @@ class PostProcessor
 public:
     PostProcessor();
 
-    void Render();
+    bool Render();
 
     void SetShader(Shader* s);
     const Shader* GetShader() { return m_Shader; }
@@ -22,6 +22,7 @@ private:
     unsigned int m_ColourTexID;
     unsigned int m_DepthTexID;
     Shader*      m_Shader;
+	int			 m_Resolution;
 };
 
 #endif/*__POST_PROCESSOR_H__*/

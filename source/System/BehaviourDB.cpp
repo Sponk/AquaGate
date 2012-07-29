@@ -43,7 +43,7 @@ MVariable Behaviour::getVariable(unsigned int id)
 
   std::map<unsigned int, MVariable*>::iterator iVar = m_Variables.begin();
 
-  for(int i = 0; i < id; ++i)
+  for(unsigned int i = 0; i < id; ++i)
     ++iVar;
 
   return *iVar->second;  

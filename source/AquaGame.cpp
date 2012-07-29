@@ -28,13 +28,21 @@
 //----------------------------------------
 // Messages
 //----------------------------------------
+REGISTER_MESSAGE(MSG_RELOAD_SHADER);
+
+//----------------------------------------
+// Commands
+//----------------------------------------
+INPUT("R", ReloadShaders, return, SendMessage(MSG_RELOAD_SHADER));
 
 //----------------------------------------
 // AquaGame
 //----------------------------------------
 AquaGame::AquaGame()
-:MGame()
+: MGame()
 {
+    m_InputManager.RegisterCommand(&ReloadShaders);
+    ReloadShaders.AttachObserver(this);
     m_PostProcessor.SetShader(new Shader("shaders/postProcessor.vert","shaders/postProcessor.frag"));
 }
 //----------------------------------------
@@ -52,10 +60,20 @@ void AquaGame::update()
 
 	MGame::update();
 }
+//----------------------------------------
 void AquaGame::draw()
 {
-    m_PostProcessor.Render();
-//    MGame::draw();
+    if(!m_PostProcessor.Render())
+		MGame::draw();
+}
+//----------------------------------------
+void AquaGame::OnMessage(Message message, int param)
+{
+    if(message == MSG_RELOAD_SHADER)
+    {
+        delete m_PostProcessor.GetShader();
+        m_PostProcessor.SetShader(new Shader("shaders/postProcessor.vert","shaders/postProcessor.frag"));
+    }
 }
 //----------------------------------------
 GameClock* AquaGame::GetGameClock()

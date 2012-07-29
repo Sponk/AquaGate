@@ -40,7 +40,7 @@
 // This class should wrap up any game specific
 // functionality
 //--------------------------------------------
-class AquaGame : public MGame, public Subject
+class AquaGame : public MGame, public Subject, public Observer
 {
 public:
 	AquaGame();
@@ -51,6 +51,11 @@ public:
 	//----------------------------------------
 	virtual void update();
 	virtual void draw();
+	
+	//----------------------------------------
+	// Observer virtuals
+	//----------------------------------------
+    void OnMessage(Message message, int param);
 
 	//----------------------------------------
 	// Public interface
