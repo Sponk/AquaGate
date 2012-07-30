@@ -25,10 +25,17 @@
 #include "GameClock.h"
 
 #include "Timer.h"
+#include "Util/Util.h"
 
 #include <algorithm>
 #include <MEngine.h>
 
+//----------------------------------------
+bool _invokeZombie(const Method& m)
+{
+	return m.Time <= 0 || m.Function == 0;
+}
+int CLOCK_MAIN = Util::Hash("CLOCK_MAIN");
 //----------------------------------------
 // getCurTime
 // quick helper function to lookup tick
@@ -42,6 +49,8 @@ clocktime getCurTime()
 	return system->getSystemTick();
 }
 
+GameClock::clockMap GameClock::m_Clocks;
+
 //----------------------------------------
 GameClock::GameClock()
 {
@@ -50,12 +59,12 @@ GameClock::GameClock()
 	m_Delta = 0;
 }
 //----------------------------------------
-void GameClock::Update()
+void GameClock::_update()
 {
 	// get the new time and then work out the delta
 	clocktime prevTime = m_CurTime;
 	m_CurTime = getCurTime();
-	m_Delta = m_CurTime - prevTime;
+	m_Delta = (clocktime)(((float)(m_CurTime - prevTime)) * m_Scale);
 
 	// update any attached timers
 	for(timerVecIter iTimer = m_Timers.begin(); 
@@ -63,6 +72,16 @@ void GameClock::Update()
 		iTimer++)
 	{
 		(*iTimer)->Update(m_Delta);
+	}
+
+	m_Invokes.remove_if(_invokeZombie);
+	for(invokeListIter iInvoke = m_Invokes.begin();
+		iInvoke != m_Invokes.end();
+		iInvoke++)
+	{
+		iInvoke->Time -= m_Delta;
+		if(iInvoke->Time <= 0)
+			iInvoke->Function();
 	}
 }
 //----------------------------------------
@@ -92,7 +111,53 @@ void GameClock::DestroyTimer(Timer* timer)
 	delete timer;
 }
 //----------------------------------------
+void GameClock::Invoke(func cb, clocktime t)
+{
+	Method method = { cb, t };
+	m_Invokes.push_back(method);
+}
+//----------------------------------------
+void GameClock::CancelInvoke(func cb)
+{
+	for(invokeListIter iInvoke = m_Invokes.begin();
+		iInvoke != m_Invokes.end();
+		iInvoke++)
+	{
+		if(iInvoke->Function == cb)
+		{
+			m_Invokes.erase(iInvoke);
+			return;
+		}
+	}
+}
+//----------------------------------------
 clocktime GameClock::GetDeltaMs()
 {
 	return m_Delta;
+}
+//----------------------------------------
+void GameClock::SetScale(float s)
+{
+	m_Scale = s;
+}
+//----------------------------------------
+GameClock* GameClock::GetClock(ClockID id)
+{
+	clockMapIter iClock = m_Clocks.find(id);
+	if(iClock != m_Clocks.end())
+		return iClock->second;
+	return 0;
+}
+//----------------------------------------
+void GameClock::SetClock(GameClock* clock, ClockID id)
+{
+	m_Clocks[id] = clock;
+}
+//----------------------------------------
+void GameClock::Update()
+{
+	for(clockMapIter iClock = m_Clocks.begin();
+		iClock != m_Clocks.end();
+		++iClock)
+		iClock->second->_update();
 }

@@ -44,6 +44,7 @@ AquaGame::AquaGame()
     m_InputManager.RegisterCommand(&ReloadShaders);
     ReloadShaders.AttachObserver(this);
     m_PostProcessor.SetShader(new Shader("shaders/postProcessor.vert","shaders/postProcessor.frag"));
+	GameClock::SetClock(&m_Clock, CLOCK_MAIN);
 }
 //----------------------------------------
 AquaGame::~AquaGame()
@@ -54,7 +55,7 @@ AquaGame::~AquaGame()
 void AquaGame::update()
 {
 	// tick the game clock
-	m_Clock.Update();
+	GameClock::Update();
 
 	m_InputManager.Update();
 
