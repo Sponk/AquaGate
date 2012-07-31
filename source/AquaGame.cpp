@@ -25,6 +25,9 @@
 #include "AquaGame.h"
 #include "System/Timer.h"
 
+#include "Game/GameStateSplash.h"
+#include "Game/GameStateLobby.h"
+
 //----------------------------------------
 // Messages
 //----------------------------------------
@@ -46,6 +49,11 @@ AquaGame::AquaGame()
     ReloadShaders.AttachObserver(this);
     m_PostProcessor.SetShader(new Shader("shaders/postProcessor.vert","shaders/postProcessor.frag"));
     GameClock::SetClock(&m_Clock, CLOCK_MAIN);
+
+    m_GameStates.AddState(new GameStateSplash(), GameState::eStateSplash);
+    m_GameStates.AddState(new GameStateLobby(), GameState::eStateLobby);
+    
+    m_GameStates.Transition(GameState::eStateSplash);
 }
 //----------------------------------------
 AquaGame::~AquaGame()
@@ -59,7 +67,9 @@ void AquaGame::update()
 	GameClock::Update();
 
 	m_InputManager.Update();
-
+	
+	m_GameStates.Update();
+	
 	MGame::update();
 }
 //----------------------------------------

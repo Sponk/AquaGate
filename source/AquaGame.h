@@ -32,6 +32,8 @@
 #include "System/MessageSystem.h"
 #include "System/InputManager.h"
 
+#include "Util/StateMachine.h"
+
 #include "Graphics/PostProcessor.h"
 
 //--------------------------------------------
@@ -66,6 +68,8 @@ public:
 	InputManager*	GetInputManager();
 
 private:
+	StateMachine    m_GameStates;
+
 	GameClock		m_Clock;
 
 	MessageSystem	m_MessageSystem;
