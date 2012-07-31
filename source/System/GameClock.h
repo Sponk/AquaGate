@@ -1,5 +1,5 @@
 /* GameClock.h
-  version 0.0.1, February 12th, 2012
+  version 0.0.2, February 12th, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -29,6 +29,8 @@
 #include <list>
 #include <map>
 
+#include "System/Object.h"
+
 class Timer;
 
 //--------------------------------------------
@@ -37,13 +39,26 @@ class Timer;
 typedef long int clocktime;
 
 typedef void(*func)(void);
+typedef void(Object::*method)(void);
 
 typedef unsigned int ClockID;
 
-struct Method
+class _Invoke
 {
-	func Function;
-	clocktime Time;
+public:
+    _Invoke(clocktime t)
+    : _time(t) {}
+    void Tick(clocktime dt)
+    {
+	_time -= dt;
+	if(_time <= 0)
+	    Invoke();
+    }
+    virtual void Invoke() = 0;
+    virtual bool Zombie() const { return _time <= 0; }
+    virtual bool Is(const char* type) = 0;
+private:
+    clocktime _time;
 };
 
 extern int CLOCK_MAIN;
@@ -68,6 +83,9 @@ public:
 	void		Invoke(func cb, clocktime t);
 	void		CancelInvoke(func cb);
 
+	void		Invoke(Object* obj, method cb, clocktime t);
+	void		CancelInvoke(Object* obj, method cb);
+
 	clocktime	GetDeltaMs();
 
 	void		SetScale(float s);
@@ -86,7 +104,7 @@ private:
 	//----------------------------------------
 	typedef std::vector<Timer*> timerVec;
 	typedef timerVec::iterator	timerVecIter;
-	typedef std::list<Method> invokeList;
+	typedef std::list<_Invoke*> invokeList;
 	typedef invokeList::iterator invokeListIter;
 	typedef std::map<ClockID, GameClock*> clockMap;
 	typedef clockMap::iterator clockMapIter;
@@ -115,12 +133,20 @@ private:
 
 // some invoke functions, NOTE: this won't work for class
 // methods yet
-#define INVOKE(fn, t) \
-	if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))\
-		c->Invoke(fn, t);
+#define INVOKE(fn, t)					\
+    if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))	\
+	c->Invoke(fn, t);
 
-#define CANCEL_INVOKE(fn, t) \
-	if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))\
-		c->CancelInvoke(fn);
+#define CANCEL_INVOKE(fn, t)				\
+    if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))	\
+	c->CancelInvoke(fn);
+
+#define CLASS_INVOKE(fn, t)					\
+    if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))		\
+	c->Invoke(this, fn, t);
+
+#define CANCEL_CLASS_INVOKE(fn, t)				\
+    if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))		\
+	c->CancelInvoke(this, fn);
 
 #endif /*__GAME_CLOCK_H__*/

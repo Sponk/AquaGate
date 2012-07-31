@@ -59,16 +59,18 @@ namespace Util
 # define M_rewind rewind
 #endif
 
-#ifndef max
-# define max(x, y) (x > y ? x : 0)
-#endif
+#ifdef WIN32
+# ifndef max
+#  define max(x, y) (x > y ? x : 0)
+# endif
 
-#ifndef min
-# define min(x, y) (x < y ? x : 0)
-#endif
+# ifndef min
+#  define min(x, y) (x < y ? x : 0)
+# endif
 
-#ifndef clamp
-# define clamp(x, low, hi) (max(min(x, hi), low))
+# ifndef clamp
+#  define clamp(x, low, hi) (max(min(x, hi), low))
+# endif
 #endif
 
 #endif /*__UTIL_H__*/

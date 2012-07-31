@@ -45,6 +45,8 @@ class AquaGame : public MGame, public Subject, public Observer
 public:
 	AquaGame();
 	~AquaGame();
+
+	void Test();
 	
 	//----------------------------------------
 	// MGame virtuals

@@ -1,5 +1,5 @@
 /* GameClock.cpp
-  version 0.0.1, February 12th, 2012
+  version 0.0.2, February 12th, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -30,11 +30,42 @@
 #include <algorithm>
 #include <MEngine.h>
 
-//----------------------------------------
-bool _invokeZombie(const Method& m)
+class Function : public _Invoke
 {
-	return m.Time <= 0 || m.Function == 0;
-}
+public:
+    Function(func f, clocktime t)
+    : _function(f)
+    , _Invoke(t)
+    {}
+
+    virtual void Invoke() { if(_function) _function(); }
+    virtual bool Zombie() const { return !_function || _Invoke::Zombie(); }
+    virtual bool Is(const char* type) { return strcmp(type, "Function") == 0; }
+
+    bool Compare(func f) { return f == _function; }
+private:
+    func _function;
+};
+
+class Method : public _Invoke
+{
+public:
+    Method(Object* o, method m, clocktime t)
+    : _object(o)
+    , _method(m)
+    , _Invoke(t)
+    {}
+
+    virtual void Invoke() { if(_object && _method) (_object->*_method)(); }
+    virtual bool Zombie() const { return !_method || !_object || _Invoke::Zombie(); }
+    virtual bool Is(const char* type) { return strcmp(type, "Method") == 0; }
+
+    bool Compare(Object* o, method m) { return o == _object && m == _method; }
+private:
+    Object* _object;
+    method _method;
+};
+
 int CLOCK_MAIN = Util::Hash("CLOCK_MAIN");
 //----------------------------------------
 // getCurTime
@@ -57,6 +88,7 @@ GameClock::GameClock()
 	m_StartTime = getCurTime();
 	m_CurTime = m_StartTime;
 	m_Delta = 0;
+	m_Scale = 1.0f;
 }
 //----------------------------------------
 void GameClock::_update()
@@ -74,15 +106,20 @@ void GameClock::_update()
 		(*iTimer)->Update(m_Delta);
 	}
 
-	m_Invokes.remove_if(_invokeZombie);
 	for(invokeListIter iInvoke = m_Invokes.begin();
 		iInvoke != m_Invokes.end();
 		iInvoke++)
-	{
-		iInvoke->Time -= m_Delta;
-		if(iInvoke->Time <= 0)
-			iInvoke->Function();
-	}
+	    if((*iInvoke)->Zombie())
+	    {
+		delete *iInvoke;
+		invokeListIter toErase = iInvoke;
+		iInvoke--;		
+		m_Invokes.erase(toErase);
+	    }
+	    else
+	    {
+		(*iInvoke)->Tick(m_Delta);
+	    }
 }
 //----------------------------------------
 Timer* GameClock::CreateTimer(int id)
@@ -96,39 +133,67 @@ Timer* GameClock::CreateTimer(int id)
 //----------------------------------------
 void GameClock::DestroyTimer(Timer* timer)
 {
-	// try to find the timer and remove from
-	// the update list
-	timerVecIter iTimer = std::find(m_Timers.begin(), 
-									m_Timers.end(), 
-									timer);
-	if(iTimer != m_Timers.end())
-	{
-		m_Timers.erase(iTimer);
-	}
-
-	// regardless of whether it was in the
-	// list, we need to delete the timer
-	delete timer;
+    // try to find the timer and remove from
+    // the update list
+    timerVecIter iTimer = std::find(m_Timers.begin(), 
+				    m_Timers.end(), 
+				    timer);
+    if(iTimer != m_Timers.end())
+    {
+	m_Timers.erase(iTimer);
+    }
+    
+    // regardless of whether it was in the
+    // list, we need to delete the timer
+    delete timer;
 }
 //----------------------------------------
 void GameClock::Invoke(func cb, clocktime t)
 {
-	Method method = { cb, t };
-	m_Invokes.push_back(method);
+    Function* f = new Function(cb, t);
+    m_Invokes.push_back(f);
+}
+//----------------------------------------
+void GameClock::Invoke(Object* obj, method cb, clocktime t)
+{
+    Method* m = new Method(obj, cb, t);
+    m_Invokes.push_back(m);
 }
 //----------------------------------------
 void GameClock::CancelInvoke(func cb)
 {
-	for(invokeListIter iInvoke = m_Invokes.begin();
-		iInvoke != m_Invokes.end();
-		iInvoke++)
+    for(invokeListIter iInvoke = m_Invokes.begin();
+	iInvoke != m_Invokes.end();
+	iInvoke++)
+    {
+	if((*iInvoke) && (*iInvoke)->Is("Function"))
 	{
-		if(iInvoke->Function == cb)
-		{
-			m_Invokes.erase(iInvoke);
-			return;
-		}
+	    if( ((Function*)*iInvoke)->Compare(cb) )
+	    {
+		delete *iInvoke;
+		m_Invokes.erase(iInvoke);
+		return;
+	    }
 	}
+    }
+}
+//----------------------------------------
+void GameClock::CancelInvoke(Object* obj, method cb)
+{
+    for(invokeListIter iInvoke = m_Invokes.begin();
+	iInvoke != m_Invokes.end();
+	iInvoke++)
+    {
+	if((*iInvoke) && (*iInvoke)->Is("Method"))
+	{
+	    if( ((Method*)*iInvoke)->Compare(obj, cb) )
+	    {
+		delete *iInvoke;
+		m_Invokes.erase(iInvoke);
+		return;
+	    }
+	}
+    }
 }
 //----------------------------------------
 clocktime GameClock::GetDeltaMs()
