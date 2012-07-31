@@ -30,7 +30,7 @@
 //----------------------------------------
 REGISTER_MESSAGE(MSG_RELOAD_SHADER);
 
-void Test()
+void ExternalTest()
 {
     printf("Test\n");
 }
@@ -45,13 +45,14 @@ INPUT("R", ReloadShaders, return, SendMessage(MSG_RELOAD_SHADER));
 //----------------------------------------
 AquaGame::AquaGame()
 : MGame()
+, Object("Game")
 {
     m_InputManager.RegisterCommand(&ReloadShaders);
     ReloadShaders.AttachObserver(this);
     m_PostProcessor.SetShader(new Shader("shaders/postProcessor.vert","shaders/postProcessor.frag"));
     GameClock::SetClock(&m_Clock, CLOCK_MAIN);
-    Test();
-    INVOKE(Test, 10000);
+    ExternalTest();
+    INVOKE(ExternalTest, 10000);
     CLASS_INVOKE(AquaGame::Test, 5000);
 }
 void AquaGame::Test()

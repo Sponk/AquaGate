@@ -29,39 +29,17 @@
 #include <list>
 #include <map>
 
-#include "System/Object.h"
+#define IN_GAME_CLOCK_H
+#  include "System/Invoke.h"
+#undef IN_GAME_CLOCK_H
 
 class Timer;
 
 //--------------------------------------------
-// typedef's
+// Clock IDs
 //--------------------------------------------
-typedef long int clocktime;
+extern ClockID CLOCK_MAIN;
 
-typedef void(*func)(void);
-typedef void(Object::*method)(void);
-
-typedef unsigned int ClockID;
-
-class _Invoke
-{
-public:
-    _Invoke(clocktime t)
-    : _time(t) {}
-    void Tick(clocktime dt)
-    {
-	_time -= dt;
-	if(_time <= 0)
-	    Invoke();
-    }
-    virtual void Invoke() = 0;
-    virtual bool Zombie() const { return _time <= 0; }
-    virtual bool Is(const char* type) = 0;
-private:
-    clocktime _time;
-};
-
-extern int CLOCK_MAIN;
 //--------------------------------------------
 // GameClock
 //
@@ -82,9 +60,10 @@ public:
 
 	void		Invoke(func cb, clocktime t);
 	void		CancelInvoke(func cb);
-
-	void		Invoke(Object* obj, method cb, clocktime t);
-	void		CancelInvoke(Object* obj, method cb);
+	template <typename T>
+	void		Invoke(T* obj, void (T::*cb)(void), clocktime t);	
+	template <typename T>
+	void		CancelInvoke(T* obj, void (T::*cb)(void));
 
 	clocktime	GetDeltaMs();
 
@@ -131,22 +110,64 @@ private:
 	static clockMap m_Clocks;
 };
 
-// some invoke functions, NOTE: this won't work for class
-// methods yet
+//--------------------------------------------
+// Invoke defines
+// 
+// These can be used to tie to the main game
+// clock.
+//
+// If invoking a standard function, just do:
+// INVOKE(SomeFunction, 100);
+// to invoke void SomeFunction() in 100ms
+//
+// To invoke a class method, do:
+// CLASS_INVOKE(SomeClass::SomeFunction, 100);
+// to invoke void SomeClass::SomeFunction() in
+// 100ms, on the current instance of the
+// object
+//--------------------------------------------
 #define INVOKE(fn, t)					\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))	\
-	c->Invoke(fn, t);
+        c->Invoke(fn, t);
 
 #define CANCEL_INVOKE(fn, t)				\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))	\
-	c->CancelInvoke(fn);
+        c->CancelInvoke(fn);
 
 #define CLASS_INVOKE(fn, t)					\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))		\
-	c->Invoke(this, fn, t);
+        c->Invoke(this, &fn, t);
 
 #define CANCEL_CLASS_INVOKE(fn, t)				\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))		\
-	c->CancelInvoke(this, fn);
+        c->CancelInvoke(this, &fn);
+
+//--------------------------------------------
+// Templated inline invoke functions
+//--------------------------------------------
+template <typename T>
+void GameClock::Invoke(T* obj, void (T::*cb)(void), clocktime t)
+{
+	m_Invokes.push_back(new Method<T>(obj, cb, t));
+}
+
+template <typename T>
+void GameClock::CancelInvoke(T* obj, void (T::*cb)(void))
+{
+	for(invokeListIter iInvoke = m_Invokes.begin();
+	iInvoke != m_Invokes.end();
+	iInvoke++)
+	{
+		if((*iInvoke) && (*iInvoke)->Is("Method"))
+		{
+			if( ((Method*)*iInvoke)->Compare(obj, cb) )
+			{
+				delete *iInvoke;
+				m_Invokes.erase(iInvoke);
+				return;
+			}
+		}
+	}
+}
 
 #endif /*__GAME_CLOCK_H__*/

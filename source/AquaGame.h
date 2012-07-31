@@ -27,6 +27,7 @@
 
 #include "MEngine.h"
 
+#include "System/Object.h"
 #include "System/GameClock.h"
 #include "System/MessageSystem.h"
 #include "System/InputManager.h"
@@ -40,7 +41,7 @@
 // This class should wrap up any game specific
 // functionality
 //--------------------------------------------
-class AquaGame : public MGame, public Subject, public Observer
+class AquaGame : public MGame, public Subject, public Observer, public Object
 {
 public:
 	AquaGame();

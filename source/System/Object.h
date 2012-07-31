@@ -1,6 +1,8 @@
 #ifndef __OBJECT_H__
 #define __OBJECT_H__
 
+#include "Util/Util.h"
+
 #ifdef DEBUG
 # include <string>
 #endif

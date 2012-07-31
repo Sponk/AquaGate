@@ -1,7 +1,5 @@
 #include "Object.h"
 
-#include "Util/Util.h"
-
 Object::Object(const char* name)
 {
 #ifdef DEBUG

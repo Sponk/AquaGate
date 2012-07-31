@@ -30,43 +30,9 @@
 #include <algorithm>
 #include <MEngine.h>
 
-class Function : public _Invoke
-{
-public:
-    Function(func f, clocktime t)
-    : _function(f)
-    , _Invoke(t)
-    {}
+ClockID CLOCK_MAIN = Util::Hash("CLOCK_MAIN");
+GameClock::clockMap GameClock::m_Clocks;
 
-    virtual void Invoke() { if(_function) _function(); }
-    virtual bool Zombie() const { return !_function || _Invoke::Zombie(); }
-    virtual bool Is(const char* type) { return strcmp(type, "Function") == 0; }
-
-    bool Compare(func f) { return f == _function; }
-private:
-    func _function;
-};
-
-class Method : public _Invoke
-{
-public:
-    Method(Object* o, method m, clocktime t)
-    : _object(o)
-    , _method(m)
-    , _Invoke(t)
-    {}
-
-    virtual void Invoke() { if(_object && _method) (_object->*_method)(); }
-    virtual bool Zombie() const { return !_method || !_object || _Invoke::Zombie(); }
-    virtual bool Is(const char* type) { return strcmp(type, "Method") == 0; }
-
-    bool Compare(Object* o, method m) { return o == _object && m == _method; }
-private:
-    Object* _object;
-    method _method;
-};
-
-int CLOCK_MAIN = Util::Hash("CLOCK_MAIN");
 //----------------------------------------
 // getCurTime
 // quick helper function to lookup tick
@@ -79,9 +45,6 @@ clocktime getCurTime()
 
 	return system->getSystemTick();
 }
-
-GameClock::clockMap GameClock::m_Clocks;
-
 //----------------------------------------
 GameClock::GameClock()
 {
@@ -154,12 +117,6 @@ void GameClock::Invoke(func cb, clocktime t)
     m_Invokes.push_back(f);
 }
 //----------------------------------------
-void GameClock::Invoke(Object* obj, method cb, clocktime t)
-{
-    Method* m = new Method(obj, cb, t);
-    m_Invokes.push_back(m);
-}
-//----------------------------------------
 void GameClock::CancelInvoke(func cb)
 {
     for(invokeListIter iInvoke = m_Invokes.begin();
@@ -169,24 +126,6 @@ void GameClock::CancelInvoke(func cb)
 	if((*iInvoke) && (*iInvoke)->Is("Function"))
 	{
 	    if( ((Function*)*iInvoke)->Compare(cb) )
-	    {
-		delete *iInvoke;
-		m_Invokes.erase(iInvoke);
-		return;
-	    }
-	}
-    }
-}
-//----------------------------------------
-void GameClock::CancelInvoke(Object* obj, method cb)
-{
-    for(invokeListIter iInvoke = m_Invokes.begin();
-	iInvoke != m_Invokes.end();
-	iInvoke++)
-    {
-	if((*iInvoke) && (*iInvoke)->Is("Method"))
-	{
-	    if( ((Method*)*iInvoke)->Compare(obj, cb) )
 	    {
 		delete *iInvoke;
 		m_Invokes.erase(iInvoke);
