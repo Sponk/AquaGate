@@ -154,20 +154,20 @@ void GameClock::Invoke(T* obj, void (T::*cb)(void), clocktime t)
 template <typename T>
 void GameClock::CancelInvoke(T* obj, void (T::*cb)(void))
 {
-	for(invokeListIter iInvoke = m_Invokes.begin();
-	iInvoke != m_Invokes.end();
-	iInvoke++)
+  for(invokeListIter iInvoke = m_Invokes.begin();
+      iInvoke != m_Invokes.end();
+      iInvoke++)
+    {
+      if((*iInvoke) && (*iInvoke)->Is("Method"))
 	{
-		if((*iInvoke) && (*iInvoke)->Is("Method"))
-		{
-			if( ((Method*)*iInvoke)->Compare(obj, cb) )
-			{
-				delete *iInvoke;
-				m_Invokes.erase(iInvoke);
-				return;
-			}
-		}
+	  if( ((Method<T>*)*iInvoke)->Compare(obj, cb) )
+	    {
+	      delete *iInvoke;
+	      m_Invokes.erase(iInvoke);
+	      return;
+	    }
 	}
+    }
 }
 
 #endif /*__GAME_CLOCK_H__*/

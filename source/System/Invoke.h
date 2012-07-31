@@ -61,7 +61,7 @@ public:
 
     virtual bool Zombie() const { return !_method || !_object || _Invoke::Zombie(); }
     virtual bool Is(const char* type) { return strcmp(type, "Method") == 0; }
-
+   
     bool Compare(ObjectType* o, void (ObjectType::*m)(void)) { return o == _object && m == _method; }
 };
 #else
