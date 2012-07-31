@@ -25,14 +25,15 @@
 #ifndef __GAME_CLOCK_H__
 #define __GAME_CLOCK_H__
 
+#define CAN_INVOKE
+
 #include <vector>
 #include <list>
 #include <map>
 
 #define IN_GAME_CLOCK_H
-#  include "System/Invoke.h"
+# include "System/Invoke.h"
 #undef IN_GAME_CLOCK_H
-
 class Timer;
 
 //--------------------------------------------
@@ -57,13 +58,15 @@ public:
 	//----------------------------------------
 	Timer*		CreateTimer(int id);
 	void		DestroyTimer(Timer* timer);
-
+	
+	#ifdef CAN_INVOKE
 	void		Invoke(func cb, clocktime t);
 	void		CancelInvoke(func cb);
 	template <typename T>
 	void		Invoke(T* obj, void (T::*cb)(void), clocktime t);	
 	template <typename T>
 	void		CancelInvoke(T* obj, void (T::*cb)(void));
+	#endif
 
 	clocktime	GetDeltaMs();
 
@@ -83,8 +86,10 @@ private:
 	//----------------------------------------
 	typedef std::vector<Timer*> timerVec;
 	typedef timerVec::iterator	timerVecIter;
+	#ifdef CAN_INVOKE
 	typedef std::list<_Invoke*> invokeList;
 	typedef invokeList::iterator invokeListIter;
+	#endif
 	typedef std::map<ClockID, GameClock*> clockMap;
 	typedef clockMap::iterator clockMapIter;
 	
@@ -97,7 +102,9 @@ private:
 	// Members
 	//----------------------------------------
 	timerVec	m_Timers;
+	#ifdef CAN_INVOKE
 	invokeList   m_Invokes;
+	#endif
 
 	clocktime	m_StartTime;
 	clocktime	m_CurTime;
@@ -110,6 +117,7 @@ private:
 	static clockMap m_Clocks;
 };
 
+#ifdef CAN_INVOKE
 //--------------------------------------------
 // Invoke defines
 // 
@@ -126,19 +134,19 @@ private:
 // 100ms, on the current instance of the
 // object
 //--------------------------------------------
-#define INVOKE(fn, t)					\
+# define INVOKE(fn, t)					\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))	\
         c->Invoke(fn, t);
 
-#define CANCEL_INVOKE(fn, t)				\
+# define CANCEL_INVOKE(fn, t)				\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))	\
         c->CancelInvoke(fn);
 
-#define CLASS_INVOKE(fn, t)					\
+# define CLASS_INVOKE(fn, t)					\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))		\
         c->Invoke(this, &fn, t);
 
-#define CANCEL_CLASS_INVOKE(fn, t)				\
+# define CANCEL_CLASS_INVOKE(fn, t)				\
     if(GameClock* c = GameClock::GetClock(CLOCK_MAIN))		\
         c->CancelInvoke(this, &fn);
 
@@ -169,5 +177,17 @@ void GameClock::CancelInvoke(T* obj, void (T::*cb)(void))
 	}
     }
 }
+#else
+
+# define INVOKE(fn, t)				\
+  fn();
+
+# define CLASS_INVOKE(fn, t)			\
+  fn();
+
+# define CANCEL_CLASS_INVOKE(fn, t)
+# define CANCEL_INVOKE(fn, t)
+
+#endif/*CAN_INVOKE*/
 
 #endif /*__GAME_CLOCK_H__*/

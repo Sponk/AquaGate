@@ -1,8 +1,10 @@
 #ifndef __INVOKE_H__
 #define __INVOKE_H__
 
-#ifdef IN_GAME_CLOCK_H
 #include "System/Object.h"
+
+#ifdef CAN_INVOKE
+# ifdef IN_GAME_CLOCK_H
 
 typedef void(*func)(void);
 
@@ -64,8 +66,9 @@ public:
    
     bool Compare(ObjectType* o, void (ObjectType::*m)(void)) { return o == _object && m == _method; }
 };
-#else
-# pragma message WARN("Looks like you're trying to include Invoke.h manually. This won't work")
+# else
+#  pragma message WARN("Looks like you're trying to include Invoke.h manually. This won't work")
+# endif
 #endif
 
 #endif/*__INVOKE_H__*/

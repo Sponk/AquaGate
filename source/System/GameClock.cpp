@@ -69,6 +69,7 @@ void GameClock::_update()
 		(*iTimer)->Update(m_Delta);
 	}
 
+#ifdef CAN_INVOKE
 	for(invokeListIter iInvoke = m_Invokes.begin();
 		iInvoke != m_Invokes.end();
 		iInvoke++)
@@ -83,6 +84,7 @@ void GameClock::_update()
 	    {
 		(*iInvoke)->Tick(m_Delta);
 	    }
+#endif
 }
 //----------------------------------------
 Timer* GameClock::CreateTimer(int id)
@@ -110,6 +112,7 @@ void GameClock::DestroyTimer(Timer* timer)
     // list, we need to delete the timer
     delete timer;
 }
+#ifdef CAN_INVOKE
 //----------------------------------------
 void GameClock::Invoke(func cb, clocktime t)
 {
@@ -134,6 +137,7 @@ void GameClock::CancelInvoke(func cb)
 	}
     }
 }
+#endif
 //----------------------------------------
 clocktime GameClock::GetDeltaMs()
 {
