@@ -39,7 +39,7 @@
 #include <map>
 
 #define IN_GAME_CLOCK_H
-# include "System/Invoke.h"
+# include "Invoke.h"
 #undef IN_GAME_CLOCK_H
 class Timer;
 

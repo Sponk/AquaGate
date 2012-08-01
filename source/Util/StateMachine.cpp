@@ -1,5 +1,4 @@
-#include "Util/StateMachine.h"
-
+#include "StateMachine.h"
 
 void StateMachine::AddState(State* state, int id)
 {
