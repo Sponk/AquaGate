@@ -1,4 +1,4 @@
-/* PlayerControllerState.h
+/* PlayerControllerStateSwim.cpp
   version 0.0.1, August 1st, 2012
 
   Copyright (C) 2012 Philipp Geyer
@@ -27,27 +27,28 @@
                         base state. - PG
 */
 
-#ifndef __PLAYER_CONTROLLER_STATE_H__
-#define __PLAYER_CONTROLLER_STATE_H__
+#include "PlayerControllerStateSwim.h"
 
-#include "Util/StateMachine.h"
-#include "Player/PlayerController.h"
+#include <stdio.h>
 
-class PlayerControllerState : public StateMachine::State
+//----------------------------------------
+// Commands
+//----------------------------------------
+
+void PlayerControllerStateSwim::Enter()
 {
-public:
-  virtual void Enter();
-  virtual void Update();
-  virtual void Exit();
+    printf("Enter Swim\n");
+    PlayerControllerState::Enter();
+}
 
-  enum
-  {
-    eStateIdle,
-    eStateSwim,
-  };
+void PlayerControllerStateSwim::Update()
+{
+    printf("Update Swim\n");
+    PlayerControllerState::Update();
+}
 
-protected:
-  PlayerController* GetPlayer();  
-};
-
-#endif/*__PLAYER_CONTROLLER_STATE_H__*/
+void PlayerControllerStateSwim::Exit()
+{
+    printf("Exit Swim\n");
+    PlayerControllerState::Update();
+}

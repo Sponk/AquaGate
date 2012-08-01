@@ -35,6 +35,7 @@
 #include "System/InputManager.h"
 
 #include "PlayerControllerStateIdle.h"
+#include "PlayerControllerStateSwim.h"
 
 REGISTER_BEHAVIOUR(PlayerController);
 //----------------------------------------
@@ -52,6 +53,7 @@ PlayerController::PlayerController(MObject3d * parentObject)
 :Behaviour(parentObject, GetStaticID())
 {
   AddState(new PlayerControllerStateIdle(), PlayerControllerState::eStateIdle);
+  AddState(new PlayerControllerStateSwim(), PlayerControllerState::eStateSwim);
 
   Transition(PlayerControllerState::eStateIdle);
 }
