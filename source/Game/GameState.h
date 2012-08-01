@@ -2,6 +2,7 @@
 #define __GAMESTATE_H__
 
 #include "Util/StateMachine.h"
+#include "AquaGame.h"
 
 class GameState : public StateMachine::State
 {
@@ -16,6 +17,9 @@ public:
     eStateLobby,
     eStateGame,
   };
+
+protected:
+  AquaGame* GetGame();
 };
 
 #endif/*__GAMESTATE_H__*/

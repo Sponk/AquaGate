@@ -22,6 +22,8 @@ public:
   protected:
     void Transition(int state) 
     { if(m_StateMachine) m_StateMachine->Transition(state); }
+
+    StateMachine* ExposeStateMachine() { return m_StateMachine; }
     
   private:
     StateMachine* m_StateMachine;
@@ -29,7 +31,7 @@ public:
   
   void AddState(State* state, int id);
 
-  void Update();
+  void UpdateStateMachine();
   
   void Transition(int id);
 

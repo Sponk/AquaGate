@@ -1,4 +1,4 @@
-/* Object.h
+/* PlayerControllerState.h
   version 0.0.1, August 1st, 2012
 
   Copyright (C) 2012 Philipp Geyer
@@ -23,28 +23,30 @@
 */
 
 /* Changelog
-   0.0.1 - 01.08.2012 - First implementation of object base class. - PG
+   0.0.1 - 01.08.2012 - First implementation of skeleton Player controller
+                        base state. - PG
 */
 
-#ifndef __OBJECT_H__
-#define __OBJECT_H__
+#ifndef __PLAYER_CONTROLLER_STATE_H__
+#define __PLAYER_CONTROLLER_STATE_H__
 
-#include "Util/Util.h"
+#include "Util/StateMachine.h"
+#include "Player/PlayerController.h"
 
-#ifdef DEBUG
-# include <string>
-#endif
-
-class Object
+class PlayerControllerState : public StateMachine::State
 {
 public:
-    Object(const char* name);
+  virtual void Enter();
+  virtual void Update();
+  virtual void Exit();
 
-    unsigned int m_Hash;
+  enum
+  {
+    eStateIdle,
+  };
 
-#ifdef DEBUG
-    std::string m_Name;
-#endif
+protected:
+  PlayerController* GetPlayer();  
 };
 
-#endif/*__OBJECT_H__*/
+#endif/*__PLAYER_CONTROLLER_STATE_H__*/

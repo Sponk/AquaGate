@@ -7,7 +7,7 @@ void StateMachine::AddState(State* state, int id)
   m_States[id] = state;
 }
 
-void StateMachine::Update()
+void StateMachine::UpdateStateMachine()
 {
   if(m_NextState)
   {

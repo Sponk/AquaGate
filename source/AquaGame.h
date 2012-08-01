@@ -43,7 +43,7 @@
 // This class should wrap up any game specific
 // functionality
 //--------------------------------------------
-class AquaGame : public MGame, public Subject, public Observer, public Object
+class AquaGame : public MGame, public Subject, public Observer, public Object, public StateMachine
 {
 public:
 	AquaGame();
@@ -68,8 +68,6 @@ public:
 	InputManager*	GetInputManager();
 
 private:
-	StateMachine    m_GameStates;
-
 	GameClock		m_Clock;
 
 	MessageSystem	m_MessageSystem;

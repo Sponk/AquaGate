@@ -16,10 +16,7 @@ INPUT("SPACE", ExitSplash, return, SendMessage(MSG_EXIT_SPLASH));
 
 void GameStateSplash::Enter()
 {
-    MEngine* engine = MEngine::getInstance();	
-    AquaGame* game = (AquaGame*)engine->getGame();
-
-    game->GetInputManager()->RegisterCommand(&ExitSplash);
+    GetGame()->GetInputManager()->RegisterCommand(&ExitSplash);
     ExitSplash.AttachObserver(this);
 
     printf("Enter Splash\n");

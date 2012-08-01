@@ -26,7 +26,6 @@
 #include "AquaPlugin.h"
 
 // Project includes
-#include "PenguinController.h"
 #include "AquaGame.h"
 
 // System includes

@@ -1,5 +1,5 @@
-/* PenguinController.cpp
-  version 0.0.1, February 12th, 2012
+/* PlayerController.cpp
+  version 0.0.2, August 1st, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -22,12 +22,21 @@
   Philipp Geyer
 */
 
-#include "PenguinController.h"
+/* Changelog
+   0.0.2 - 01.08.2012 - Renamed to PlayerController. Added state machine
+                        skeleton to handle controlling the player. - PG
+   0.0.1 - 12.02.2012 - Implemented as TuturialBehaviour for 
+                        http://nistur.com - PG
+*/
+
+#include "PlayerController.h"
 
 #include "AquaGame.h"
 #include "System/InputManager.h"
 
-REGISTER_BEHAVIOUR(PenguinController);
+#include "PlayerControllerStateIdle.h"
+
+REGISTER_BEHAVIOUR(PlayerController);
 //----------------------------------------
 // Messages
 //----------------------------------------
@@ -37,20 +46,23 @@ REGISTER_BEHAVIOUR(PenguinController);
 //----------------------------------------
 
 //----------------------------------------
-// PenguinController
+// PlayerController
 //----------------------------------------
-PenguinController::PenguinController(MObject3d * parentObject)
+PlayerController::PlayerController(MObject3d * parentObject)
 :Behaviour(parentObject, GetStaticID())
 {
+  AddState(new PlayerControllerStateIdle(), PlayerControllerState::eStateIdle);
+
+  Transition(PlayerControllerState::eStateIdle);
 }
 //----------------------------------------
-PenguinController::PenguinController(PenguinController & behavior, 
+PlayerController::PlayerController(PlayerController & behavior, 
 							MObject3d * parentObject)
 :Behaviour(parentObject, GetStaticID())
 {
 }
 //----------------------------------------
-PenguinController::~PenguinController(void)
+PlayerController::~PlayerController(void)
 {
 	MEngine* engine = MEngine::getInstance();
 	if(MGame* game = engine->getGame())
@@ -60,28 +72,26 @@ PenguinController::~PenguinController(void)
 	}
 }
 //----------------------------------------
-void PenguinController::destroy()
+void PlayerController::destroy()
 {
 	delete this;
 }
 //----------------------------------------
-MBehavior* PenguinController::getNew(MObject3d* parentObject)
+MBehavior* PlayerController::getNew(MObject3d* parentObject)
 {
-	return new PenguinController(parentObject);
+	return new PlayerController(parentObject);
 }
 //----------------------------------------
-MBehavior* PenguinController::getCopy(MObject3d* parentObject)
+MBehavior* PlayerController::getCopy(MObject3d* parentObject)
 {
-	return new PenguinController(*this, parentObject);
+	return new PlayerController(*this, parentObject);
 }
 //----------------------------------------
-void PenguinController::update()
+void PlayerController::update()
 {
-	// just a check to see if the behaviour manager is working right
-	if(GetBehaviour<PenguinController>() != this)
-		return;
+  UpdateStateMachine();
 }
 //----------------------------------------
-void PenguinController::OnMessage(Message message, int param1)
+void PlayerController::OnMessage(Message message, int param1)
 {
 }

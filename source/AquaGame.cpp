@@ -50,10 +50,10 @@ AquaGame::AquaGame()
     m_PostProcessor.SetShader(new Shader("shaders/postProcessor.vert","shaders/postProcessor.frag"));
     GameClock::SetClock(&m_Clock, CLOCK_MAIN);
 
-    m_GameStates.AddState(new GameStateSplash(), GameState::eStateSplash);
-    m_GameStates.AddState(new GameStateLobby(), GameState::eStateLobby);
+    AddState(new GameStateSplash(), GameState::eStateSplash);
+    AddState(new GameStateLobby(), GameState::eStateLobby);
     
-    m_GameStates.Transition(GameState::eStateSplash);
+    Transition(GameState::eStateSplash);
 }
 //----------------------------------------
 AquaGame::~AquaGame()
@@ -68,7 +68,7 @@ void AquaGame::update()
 
 	m_InputManager.Update();
 	
-	m_GameStates.Update();
+	UpdateStateMachine();
 	
 	MGame::update();
 }

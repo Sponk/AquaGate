@@ -1,5 +1,5 @@
 /* GameClock.h
-  version 0.0.2, February 12th, 2012
+  version 0.0.2, August 1st, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -20,6 +20,13 @@
   3. This notice may not be removed or altered from any source distribution.
 
   Philipp Geyer
+*/
+
+/* Changelog
+   0.0.2 - 01.08.2012 - Added basic C#-esque invoke system and support for
+                        multiple clocks to run at the same time
+   0.0.1 - 12.02.2012 - First implementation of Game Clock for tutorial at
+                        http://nistur.com - PG
 */
 
 #ifndef __GAME_CLOCK_H__

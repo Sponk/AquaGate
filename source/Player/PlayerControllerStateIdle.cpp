@@ -1,4 +1,4 @@
-/* Object.h
+/* PlayerControllerStateIdle.cpp
   version 0.0.1, August 1st, 2012
 
   Copyright (C) 2012 Philipp Geyer
@@ -23,28 +23,32 @@
 */
 
 /* Changelog
-   0.0.1 - 01.08.2012 - First implementation of object base class. - PG
+   0.0.1 - 01.08.2012 - First implementation of skeleton Player controller
+                        base state. - PG
 */
 
-#ifndef __OBJECT_H__
-#define __OBJECT_H__
+#include "PlayerControllerStateIdle.h"
 
-#include "Util/Util.h"
+#include <stdio.h>
 
-#ifdef DEBUG
-# include <string>
-#endif
+//----------------------------------------
+// Commands
+//----------------------------------------
 
-class Object
+void PlayerControllerStateIdle::Enter()
 {
-public:
-    Object(const char* name);
+    printf("Enter Idle\n");
+    PlayerControllerState::Enter();
+}
 
-    unsigned int m_Hash;
+void PlayerControllerStateIdle::Update()
+{
+    printf("Update Idle\n");
+    PlayerControllerState::Update();
+}
 
-#ifdef DEBUG
-    std::string m_Name;
-#endif
-};
-
-#endif/*__OBJECT_H__*/
+void PlayerControllerStateIdle::Exit()
+{
+    printf("Exit Idle\n");
+    PlayerControllerState::Update();
+}

@@ -16,3 +16,8 @@ void GameState::Exit()
 {
   printf("Exit\n");
 }
+
+AquaGame* GameState::GetGame()
+{
+  return (AquaGame*)ExposeStateMachine();
+}

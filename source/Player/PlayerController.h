@@ -1,5 +1,5 @@
-/* PenguinController.h
-  version 0.0.1, February 12th, 2012
+/* PlayerController.h
+  version 0.0.2, August 1st, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -22,8 +22,16 @@
   Philipp Geyer
 */
 
-#ifndef __PENGUIN_CONTROLLER_H__
-#define __PENGUIN_CONTROLLER_H__
+/* Changelog
+   0.0.2 - 01.08.2012 - Renamed to PlayerController. Added state machine
+                        skeleton to handle controlling the player. - PG
+   0.0.1 - 12.02.2012 - Implemented as TuturialBehaviour for 
+                        http://nistur.com - PG
+*/
+
+
+#ifndef __PLAYER_CONTROLLER_H__
+#define __PLAYER_CONTROLLER_H__
 
 #include "System/Timer.h"
 
@@ -31,18 +39,20 @@
 
 #include "System/BehaviourDB.h"
 
+#include "Util/StateMachine.h"
+
 //--------------------------------------------
-// PenguinController
+// PlayerController
 // 
 // Will give our happy little cube some
 // character
 //--------------------------------------------
-class PenguinController : public Behaviour, public Observer
+class PlayerController : public Behaviour, public Observer, public StateMachine
 {
 public:
-	PenguinController(MObject3d * parentObject);
-	PenguinController(PenguinController & behavior, MObject3d * parentObject);
-	~PenguinController();
+	PlayerController(MObject3d * parentObject);
+	PlayerController(PlayerController & behavior, MObject3d * parentObject);
+	~PlayerController();
 	
 	//----------------------------------------
 	// MBehavior virtuals
@@ -59,8 +69,8 @@ public:
 	//----------------------------------------
 	void OnMessage(Message message, int param1);
 
-	IMPLEMENT_BEHAVIOUR(PenguinController);
+	IMPLEMENT_BEHAVIOUR(PlayerController);
 private:
 };
 
-#endif /*__PENGUIN_CONTROLLER_H__*/
+#endif /*__PLAYER_CONTROLLER_H__*/
