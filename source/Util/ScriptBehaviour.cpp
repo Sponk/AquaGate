@@ -49,6 +49,7 @@ ScriptBehaviour::ScriptBehaviour(MObject3d * parentObject)
 : Behaviour(parentObject, GetStaticID())
 , m_FunctionName("")
 {
+    Init();
 }
 //----------------------------------------
 ScriptBehaviour::ScriptBehaviour(ScriptBehaviour & behavior, 
@@ -56,10 +57,16 @@ ScriptBehaviour::ScriptBehaviour(ScriptBehaviour & behavior,
 : Behaviour(parentObject, GetStaticID())
 , m_FunctionName(behavior.m_FunctionName)
 {
+    Init();
 }
 //----------------------------------------
 ScriptBehaviour::~ScriptBehaviour(void)
 {
+}
+//----------------------------------------
+void ScriptBehaviour::Init()
+{
+    RegisterVariable(MVariable("Function", &m_FunctionName, M_VARIABLE_STRING));
 }
 //----------------------------------------
 void ScriptBehaviour::destroy()
@@ -79,8 +86,14 @@ MBehavior* ScriptBehaviour::getCopy(MObject3d* parentObject)
 //----------------------------------------
 void ScriptBehaviour::update()
 {
-    MScriptContext* script = MEngine::getInstance()->getScriptContext();
-    MScene* scene = MEngine::getInstance()->getLevel()->getCurrentScene();
+    MEngine* engine = MEngine::getInstance();
+    MGame* game = engine->getGame();
+    
+    if(game == 0 || !game->isRunning())
+	return;
+
+    MScriptContext* script = engine->getScriptContext();
+    MScene* scene = engine->getLevel()->getCurrentScene();
 
     unsigned int id;
     scene->getObjectIndex(getParentObject()->getName(), &id);

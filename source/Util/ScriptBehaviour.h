@@ -66,6 +66,7 @@ public:
 
 	IMPLEMENT_BEHAVIOUR(ScriptBehaviour);
 private:
+	void Init();
 
 	MString m_FunctionName;
 };
