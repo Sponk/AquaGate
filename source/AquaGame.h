@@ -66,6 +66,7 @@ public:
 	GameClock*		GetGameClock();
 	MessageSystem*	GetMessageSystem();
 	InputManager*	GetInputManager();
+	PostProcessor*  GetPostProcessor();
 
 private:
 	GameClock		m_Clock;

@@ -74,7 +74,16 @@ void Behaviour::UnregisterVariable(MVariable var)
     m_Variables.erase(iVar);
   }
 }
-
+//----------------------------------------
+void Behaviour::update()
+{
+    MEngine* engine = MEngine::getInstance();
+    MGame* game = engine->getGame();
+    
+    if(game == 0 || !game->isRunning())
+	return;
+    Update();
+}
 //--------------------------------------------
 // BehaviourDB
 //--------------------------------------------

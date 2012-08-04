@@ -31,22 +31,22 @@
 
 #include <stdio.h>
 
+//----------------------------------------
+// PlayerControllerState
+//----------------------------------------
 void PlayerControllerState::Enter()
 {
-  printf("Enter\n");
 }
-
+//----------------------------------------
 void PlayerControllerState::Update()
 {
-  printf("Update\n");
 }
-
+//----------------------------------------
 void PlayerControllerState::Exit()
 {
-  printf("Exit\n");
 }
-
+//----------------------------------------
 PlayerController* PlayerControllerState::GetPlayer()
 {
-  return (PlayerController*)ExposeStateMachine();
+    return (PlayerController*)ExposeStateMachine();
 }

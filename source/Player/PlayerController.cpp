@@ -74,22 +74,7 @@ PlayerController::~PlayerController(void)
 	}
 }
 //----------------------------------------
-void PlayerController::destroy()
-{
-	delete this;
-}
-//----------------------------------------
-MBehavior* PlayerController::getNew(MObject3d* parentObject)
-{
-	return new PlayerController(parentObject);
-}
-//----------------------------------------
-MBehavior* PlayerController::getCopy(MObject3d* parentObject)
-{
-	return new PlayerController(*this, parentObject);
-}
-//----------------------------------------
-void PlayerController::update()
+void PlayerController::Update()
 {
   UpdateStateMachine();
 }

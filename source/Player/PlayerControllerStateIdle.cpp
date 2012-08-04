@@ -37,18 +37,15 @@
 
 void PlayerControllerStateIdle::Enter()
 {
-    printf("Enter Idle\n");
     PlayerControllerState::Enter();
 }
 
 void PlayerControllerStateIdle::Update()
 {
-    printf("Update Idle\n");
     PlayerControllerState::Update();
 }
 
 void PlayerControllerStateIdle::Exit()
 {
-    printf("Exit Idle\n");
     PlayerControllerState::Update();
 }

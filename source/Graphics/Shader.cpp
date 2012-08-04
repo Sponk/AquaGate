@@ -71,3 +71,10 @@ void Shader::Clear()
 	if(MRenderingContext* render = engine->getRenderingContext())
 		render->bindFX(0);
 }
+
+void Shader::SetValue(const char* name, int val)
+{
+    MEngine* engine = MEngine::getInstance();
+    if(MRenderingContext* render = engine->getRenderingContext())
+	render->sendUniformInt(m_FX , name, &val, 1);
+}

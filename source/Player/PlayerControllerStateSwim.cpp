@@ -37,18 +37,15 @@
 
 void PlayerControllerStateSwim::Enter()
 {
-    printf("Enter Swim\n");
     PlayerControllerState::Enter();
 }
 
 void PlayerControllerStateSwim::Update()
 {
-    printf("Update Swim\n");
     PlayerControllerState::Update();
 }
 
 void PlayerControllerStateSwim::Exit()
 {
-    printf("Exit Swim\n");
     PlayerControllerState::Update();
 }

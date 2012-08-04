@@ -36,9 +36,9 @@
 class PlayerControllerStateIdle : public PlayerControllerState
 {
 public:
-  virtual void Enter();
-  virtual void Update();
-  virtual void Exit();
+    virtual void Enter();
+    virtual void Update();
+    virtual void Exit();
 };
 
 #endif/*__PLAYER_CONTROLLER_STATE_IDLE_H__*/

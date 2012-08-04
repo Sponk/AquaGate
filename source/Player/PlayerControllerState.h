@@ -36,18 +36,18 @@
 class PlayerControllerState : public StateMachine::State
 {
 public:
-  virtual void Enter();
-  virtual void Update();
-  virtual void Exit();
-
-  enum
-  {
-    eStateIdle,
-    eStateSwim,
-  };
-
-protected:
-  PlayerController* GetPlayer();  
+    virtual void Enter();
+    virtual void Update();
+    virtual void Exit();
+    
+    enum
+    {
+	eStateIdle,
+	eStateSwim,
+    };
+    
+protected:    
+    PlayerController* GetPlayer();  
 };
 
 #endif/*__PLAYER_CONTROLLER_STATE_H__*/

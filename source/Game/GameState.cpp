@@ -2,21 +2,21 @@
 
 #include <stdio.h>
 
+//----------------------------------------
+// GameState
+//----------------------------------------
 void GameState::Enter()
 {
-  printf("Enter\n");
 }
-
+//----------------------------------------
 void GameState::Update()
 {
-  printf("Update\n");
 }
-
+//----------------------------------------
 void GameState::Exit()
 {
-  printf("Exit\n");
 }
-
+//----------------------------------------
 AquaGame* GameState::GetGame()
 {
   return (AquaGame*)ExposeStateMachine();

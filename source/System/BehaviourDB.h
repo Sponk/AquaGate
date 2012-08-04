@@ -34,6 +34,7 @@ public:
 	// MBehavior virtuals
 	virtual unsigned int getVariablesNumber();
 	virtual MVariable getVariable(unsigned int id);
+	virtual void update();
 protected:
 	// This is where the magic happens
 	// from within any custom behaviour, we should
@@ -50,6 +51,7 @@ protected:
 	void RegisterVariable(MVariable var);
 	void UnregisterVariable(MVariable var);
 
+	virtual void Update() = 0;
  private:
 	std::map<unsigned int, MVariable*> m_Variables;
 };
@@ -57,29 +59,38 @@ protected:
 // Some helpwe macros to keep things tidy.
 // This one goes within the class definition
 #define IMPLEMENT_BEHAVIOUR(x)					\
-static const char* getStaticName() { return #x; }		\
-const char* getName() { return getStaticName(); }		\
-static void SetID(Behaviour::ID id) { m_ID = id; }		\
-static Behaviour::ID GetStaticID() { return m_ID; }		\
-static Behaviour::ID m_ID;					\
-virtual Behaviour::ID GetID() { return x::GetStaticID(); }
-
+    static const char* getStaticName() { return #x; }		\
+    const char* getName() { return getStaticName(); }		\
+    static void SetID(Behaviour::ID id) { m_ID = id; }		\
+    static Behaviour::ID GetStaticID() { return m_ID; }		\
+    static Behaviour::ID m_ID;					\
+    virtual Behaviour::ID GetID() { return x::GetStaticID(); }	\
+    void destroy();						\
+    static MBehavior* getNew(MObject3d* parentObject);		\
+    MBehavior* getCopy(MObject3d* parentObject);		\
+    void runEvent(int param){}
+    
 // This one goes at the top of the source file
-#define REGISTER_BEHAVIOUR(x)					\
-Behaviour::ID x::m_ID = GetBehaviourDB()->GetBehaviourID(#x);	\
-class x##AutoRegister						\
-{								\
-public:								\
-    x##AutoRegister()						\
-    {								\
-	MEngine* engine = MEngine::getInstance();		\
-	MBehaviorManager* bm = engine->getBehaviorManager();	\
-	bm->addBehavior(x::getStaticName(),			\
-			M_OBJECT3D,				\
-			x::getNew);				\
-    }								\
-};								\
-x##AutoRegister _##x##AutoRegister;
+#define REGISTER_BEHAVIOUR(x)						\
+    void x::destroy() { delete this; }					\
+    MBehavior* x::getNew(MObject3d* parentObject)			\
+    { return new x(parentObject); }					\
+    MBehavior* x::getCopy(MObject3d* parentObject)			\
+    { return new x(*this, parentObject); }				\
+    Behaviour::ID x::m_ID = GetBehaviourDB()->GetBehaviourID(#x);	\
+    class x##AutoRegister						\
+    {									\
+    public:								\
+	x##AutoRegister()						\
+	{								\
+	    MEngine* engine = MEngine::getInstance();			\
+	    MBehaviorManager* bm = engine->getBehaviorManager();	\
+	    bm->addBehavior(x::getStaticName(),				\
+			    M_OBJECT3D,					\
+			    x::getNew);					\
+	}								\
+    };									\
+    x##AutoRegister _##x##AutoRegister;
 
 //--------------------------------------------
 // BehaviourDB

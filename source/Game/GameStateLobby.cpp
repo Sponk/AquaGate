@@ -2,20 +2,20 @@
 
 #include <stdio.h>
 
+//----------------------------------------
+// GameStateLobby
+//----------------------------------------
 void GameStateLobby::Enter()
 {
-  printf("Enter Lobby\n");
-  GameState::Enter();
+    GameState::Enter();
 }
-
+//----------------------------------------
 void GameStateLobby::Update()
 {
-  printf("Update Lobby\n");
-  GameState::Update();
+    GameState::Update();
 }
-
+//----------------------------------------
 void GameStateLobby::Exit()
 {
-  printf("Exit Lobby\n");
-  GameState::Update();
+    GameState::Update();
 }

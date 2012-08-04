@@ -47,7 +47,7 @@ REGISTER_BEHAVIOUR(ScriptBehaviour);
 //----------------------------------------
 ScriptBehaviour::ScriptBehaviour(MObject3d * parentObject)
 : Behaviour(parentObject, GetStaticID())
-, m_FunctionName("")
+, m_FunctionName("...")
 {
     Init();
 }
@@ -69,29 +69,9 @@ void ScriptBehaviour::Init()
     RegisterVariable(MVariable("Function", &m_FunctionName, M_VARIABLE_STRING));
 }
 //----------------------------------------
-void ScriptBehaviour::destroy()
-{
-	delete this;
-}
-//----------------------------------------
-MBehavior* ScriptBehaviour::getNew(MObject3d* parentObject)
-{
-	return new ScriptBehaviour(parentObject);
-}
-//----------------------------------------
-MBehavior* ScriptBehaviour::getCopy(MObject3d* parentObject)
-{
-	return new ScriptBehaviour(*this, parentObject);
-}
-//----------------------------------------
-void ScriptBehaviour::update()
+void ScriptBehaviour::Update()
 {
     MEngine* engine = MEngine::getInstance();
-    MGame* game = engine->getGame();
-    
-    if(game == 0 || !game->isRunning())
-	return;
-
     MScriptContext* script = engine->getScriptContext();
     MScene* scene = engine->getLevel()->getCurrentScene();
 

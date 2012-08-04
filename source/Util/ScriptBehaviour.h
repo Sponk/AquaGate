@@ -50,14 +50,9 @@ public:
 	~ScriptBehaviour();
 	
 	//----------------------------------------
-	// MBehavior virtuals
+	// Behaviour virtuals
 	//----------------------------------------
-	void destroy();
-	static MBehavior* getNew(MObject3d* parentObject);
-	MBehavior* getCopy(MObject3d* parentObject);
-
-	void update();
-	void runEvent(int param){}
+	void Update();
 
 	//----------------------------------------
 	// Observer virtuals

@@ -2,6 +2,8 @@
 
 #include "Util/Util.h"
 
+#define MULT 1
+
 PostProcessor::PostProcessor()
     : m_BufferID(0)
     , m_ColourTexID(0)
@@ -14,8 +16,10 @@ PostProcessor::PostProcessor()
     unsigned int screenWidth = 0;
     unsigned int screenHeight = 0;
     system->getScreenSize(&screenWidth, &screenHeight);
-
+    
     m_Resolution = Util::Pow2(max(screenWidth, screenHeight));
+    
+    m_Resolution *= MULT;
 
     // create frame buffer
     render->createFrameBuffer(&m_BufferID);

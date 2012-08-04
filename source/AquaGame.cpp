@@ -102,3 +102,8 @@ InputManager* AquaGame::GetInputManager()
 {
 	return &m_InputManager;
 }
+//----------------------------------------
+PostProcessor* AquaGame::GetPostProcessor()
+{
+	return &m_PostProcessor;
+}
