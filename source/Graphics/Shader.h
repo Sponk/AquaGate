@@ -11,7 +11,8 @@ public:
 
 	unsigned int ExposeShader() { return m_FX; }
 
-	void SetValue(const char* name, int val);
+	void SetValue(const char* name, int val) const;
+	void SetValue(const char* name, float val) const;
 private:
 	
 	unsigned int m_FX;

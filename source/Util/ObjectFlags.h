@@ -1,4 +1,4 @@
-/* ScriptBehaviour.h
+/* ObjectFlags.h
   version 0.0.2, August 2nd, 2012
 
   Copyright (C) 2012 Philipp Geyer
@@ -30,40 +30,55 @@
 */
 
 
-#ifndef __SCRIPT_BEHAVIOUR_H__
-#define __SCRIPT_BEHAVIOUR_H__
-
-#include "System/Timer.h"
-
-#include "System/MessageSystem.h"
+#ifndef __OBJECT_FLAGS_H__
+#define __OBJECT_FLAGS_H__
 
 #include "System/BehaviourDB.h"
 
-//--------------------------------------------
-// ScriptBehaviour
-//--------------------------------------------
-class ScriptBehaviour : public Behaviour, public Observer
+#include <set>
+
+//----------------------------------------
+// ObjectFlags
+//----------------------------------------
+class ObjectFlags : public Behaviour
 {
 public:
-	ScriptBehaviour(MObject3d * parentObject);
-	ScriptBehaviour(ScriptBehaviour & behavior, MObject3d * parentObject);
-	~ScriptBehaviour();
+	ObjectFlags(MObject3d * parentObject);
+	ObjectFlags(ObjectFlags & behavior, MObject3d * parentObject);
+	~ObjectFlags();
 	
-	//----------------------------------------
+	//--------------------------------
 	// Behaviour virtuals
-	//----------------------------------------
-	void Update();
+	//--------------------------------
+	void Update(){}
 
-	//----------------------------------------
-	// Observer virtuals
-	//----------------------------------------
-	void OnMessage(Message message, int param1);
+	IMPLEMENT_BEHAVIOUR(ObjectFlags);
 
-	IMPLEMENT_BEHAVIOUR(ScriptBehaviour);
+	class Flags
+	{
+	public:
+	    Flags()
+		: m_dirty(true) {}
+	    typedef unsigned int            flag;
+	    typedef std::set<flag>          flagSet;
+	    typedef flagSet::iterator       flagSetIter;
+	    typedef flagSet::const_iterator flagSetConstIter;
+	    
+	    flagSet m_flags;
+	    MString m_flagString;
+
+	    void Parse();
+	    bool Contains(flag check) const;
+	    bool Intersects(Flags check) const;
+	private:
+	    bool m_dirty;
+	};
+
+	const Flags::flagSet& GetFlags();
 private:
 	void Init();
 
-	MString m_FunctionName;
+	Flags m_flags;
 };
 
-#endif /*__SCRIPT_BEHAVIOUR_H__*/
+#endif /*__OBJECT_FLAGS_H__*/

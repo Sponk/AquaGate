@@ -1,9 +1,10 @@
 varying vec2 texcoord;
 uniform sampler2D Texture[4];
+uniform float Depth;
 
 void main(void)
 {
-    vec3 fogCol = vec3(0.0, 0.5, 0.8);
+    vec3 fogCol = vec3(Depth, 0.5, 0.8);
     vec3 col = texture2D(Texture[0], texcoord).xyz;
     vec3 d = texture2D(Texture[1], texcoord).xyz;
     col *= (fogCol * d);

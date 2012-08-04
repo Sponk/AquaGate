@@ -27,6 +27,14 @@ function onSceneUpdate()
    if isKeyPressed("RIGHT") then
       addCentralForce(Player, {3, 0, 0}, "local")
    end	
+   
+   if isKeyPressed("A") then
+      addCentralForce(Player, {0, 0, -3}, "local")
+   end
+   
+   if isKeyPressed("Z") then
+      addCentralForce(Player, {0, 0, 3}, "local")
+   end	
 
    -- get mouse direction
    dx = getAxis("MOUSE_X") - mx

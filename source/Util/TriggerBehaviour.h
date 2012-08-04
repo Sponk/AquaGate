@@ -1,4 +1,4 @@
-/* ScriptBehaviour.h
+/* TriggerBehaviour.h
   version 0.0.2, August 2nd, 2012
 
   Copyright (C) 2012 Philipp Geyer
@@ -30,40 +30,43 @@
 */
 
 
-#ifndef __SCRIPT_BEHAVIOUR_H__
-#define __SCRIPT_BEHAVIOUR_H__
+#ifndef __TRIGGER_BEHAVIOUR_H__
+#define __TRIGGER_BEHAVIOUR_H__
 
 #include "System/Timer.h"
-
 #include "System/MessageSystem.h"
-
 #include "System/BehaviourDB.h"
+#include "ObjectFlags.h"
 
-//--------------------------------------------
-// ScriptBehaviour
-//--------------------------------------------
-class ScriptBehaviour : public Behaviour, public Observer
+
+//----------------------------------------
+// Messages
+//----------------------------------------
+DECLARE_MESSAGE(MSG_TRIGGER_ENTER);
+DECLARE_MESSAGE(MSG_TRIGGER_EXIT);
+
+//----------------------------------------
+// TriggerBehaviour
+//----------------------------------------
+class TriggerBehaviour : public Behaviour, public Subject
 {
 public:
-	ScriptBehaviour(MObject3d * parentObject);
-	ScriptBehaviour(ScriptBehaviour & behavior, MObject3d * parentObject);
-	~ScriptBehaviour();
-	
-	//----------------------------------------
-	// Behaviour virtuals
-	//----------------------------------------
-	void Update();
+    TriggerBehaviour(MObject3d * parentObject);
+    TriggerBehaviour(TriggerBehaviour & behavior, MObject3d * parentObject);
+    ~TriggerBehaviour();
 
-	//----------------------------------------
-	// Observer virtuals
-	//----------------------------------------
-	void OnMessage(Message message, int param1);
+    //--------------------------------
+    // Behaviour virtuals
+    //--------------------------------
+    void Update();
 
-	IMPLEMENT_BEHAVIOUR(ScriptBehaviour);
+    IMPLEMENT_BEHAVIOUR(TriggerBehaviour);
+
 private:
-	void Init();
+    void Init();
 
-	MString m_FunctionName;
+    MPhysicsProperties* m_physicsObject;
+    ObjectFlags::Flags m_flags;
 };
 
-#endif /*__SCRIPT_BEHAVIOUR_H__*/
+#endif /*__TRIGGER_BEHAVIOUR_H__*/

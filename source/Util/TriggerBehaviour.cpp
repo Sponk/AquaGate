@@ -1,5 +1,5 @@
-/* PlayerController.cpp
-  version 0.0.2, August 1st, 2012
+/* TriggerBehaviour.cpp
+  version 0.0.2, August 2st, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -23,70 +23,65 @@
 */
 
 /* Changelog
-   0.0.2 - 01.08.2012 - Renamed to PlayerController. Added state machine
+   0.0.2 - 01.08.2012 - Renamed to TriggerBehaviour. Added state machine
                         skeleton to handle controlling the player. - PG
    0.0.1 - 12.02.2012 - Implemented as TuturialBehaviour for 
                         http://nistur.com - PG
 */
 
-#include "PlayerController.h"
+#include "TriggerBehaviour.h"
 
-#include "AquaGame.h"
-#include "System/InputManager.h"
+#include <MEngine.h>
 
-#include "PlayerControllerStateIdle.h"
-#include "PlayerControllerStateSwim.h"
-
-REGISTER_BEHAVIOUR(PlayerController);
+REGISTER_BEHAVIOUR(TriggerBehaviour);
 //----------------------------------------
 // Messages
 //----------------------------------------
+REGISTER_MESSAGE(MSG_TRIGGER_ENTER);
+REGISTER_MESSAGE(MSG_TRIGGER_EXIT);
 
 //----------------------------------------
 // quick defines
 //----------------------------------------
 
 //----------------------------------------
-// PlayerController
+// TriggerBehaviour
 //----------------------------------------
-PlayerController::PlayerController(MObject3d * parentObject)
+TriggerBehaviour::TriggerBehaviour(MObject3d * parentObject)
     : Behaviour(parentObject, GetStaticID())
+    , m_physicsObject(0)
 {
-    AddState(new PlayerControllerStateIdle(), PlayerControllerState::eStateIdle);
-    AddState(new PlayerControllerStateSwim(), PlayerControllerState::eStateSwim);
-    
-    Transition(PlayerControllerState::eStateIdle);
+    Init();
 }
 //----------------------------------------
-PlayerController::PlayerController(PlayerController & behavior, 
+TriggerBehaviour::TriggerBehaviour(TriggerBehaviour & behavior, 
 				   MObject3d * parentObject)
     : Behaviour(parentObject, GetStaticID())
+    , m_physicsObject(0)
+{
+    Init();
+}
+//----------------------------------------
+TriggerBehaviour::~TriggerBehaviour(void)
 {
 }
 //----------------------------------------
-PlayerController::~PlayerController(void)
+void TriggerBehaviour::Update()
 {
-    MEngine* engine = MEngine::getInstance();
-    if(MGame* game = engine->getGame())
+    m_flags.Parse();
+    if(m_physicsObject)
     {
-	AquaGame* aquaGame = (AquaGame*)game;
-	aquaGame->DetachObserver(this);
+	MPhysicsContext* physics = MEngine::getInstance()->getPhysicsContext();
+	if(physics->isObjectInCollision(m_physicsObject->getCollisionObjectId()) > 0)
+	    printf("Testing\n");
     }
+    
 }
 //----------------------------------------
-void PlayerController::Update()
+void TriggerBehaviour::Init()
 {
-    MEngine* engine = MEngine::getInstance();
-    if(MGame* game = engine->getGame())
-    {
-	AquaGame* aquaGame = (AquaGame*)game;
-
-	aquaGame->GetPostProcessor()->GetShader()->SetValue("Depth", getParentObject()->getPosition().y);
-    }
-
-    UpdateStateMachine();
-}
-//----------------------------------------
-void PlayerController::OnMessage(Message message, int param1)
-{
+    RegisterVariable(MVariable("Flags", &m_flags.m_flagString, M_VARIABLE_STRING));
+    MObject3d* obj = getParentObject();
+    if(obj && obj->getType() == M_OBJECT3D_ENTITY)
+	m_physicsObject = ((MOEntity*)obj)->getPhysicsProperties();
 }

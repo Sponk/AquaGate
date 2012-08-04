@@ -1,5 +1,5 @@
-/* PlayerController.cpp
-  version 0.0.2, August 1st, 2012
+/* ObjectFlags.cpp
+  version 0.0.2, August 2st, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -23,70 +23,79 @@
 */
 
 /* Changelog
-   0.0.2 - 01.08.2012 - Renamed to PlayerController. Added state machine
+   0.0.2 - 01.08.2012 - Renamed to ObjectFlags. Added state machine
                         skeleton to handle controlling the player. - PG
    0.0.1 - 12.02.2012 - Implemented as TuturialBehaviour for 
                         http://nistur.com - PG
 */
 
-#include "PlayerController.h"
+#include "ObjectFlags.h"
+#include "Util.h"
 
-#include "AquaGame.h"
-#include "System/InputManager.h"
+#include <MEngine.h>
 
-#include "PlayerControllerStateIdle.h"
-#include "PlayerControllerStateSwim.h"
-
-REGISTER_BEHAVIOUR(PlayerController);
-//----------------------------------------
-// Messages
-//----------------------------------------
+REGISTER_BEHAVIOUR(ObjectFlags);
 
 //----------------------------------------
 // quick defines
 //----------------------------------------
 
 //----------------------------------------
-// PlayerController
+// ObjectFlags
 //----------------------------------------
-PlayerController::PlayerController(MObject3d * parentObject)
+ObjectFlags::ObjectFlags(MObject3d * parentObject)
     : Behaviour(parentObject, GetStaticID())
 {
-    AddState(new PlayerControllerStateIdle(), PlayerControllerState::eStateIdle);
-    AddState(new PlayerControllerStateSwim(), PlayerControllerState::eStateSwim);
-    
-    Transition(PlayerControllerState::eStateIdle);
+    Init();
 }
 //----------------------------------------
-PlayerController::PlayerController(PlayerController & behavior, 
+ObjectFlags::ObjectFlags(ObjectFlags & behavior, 
 				   MObject3d * parentObject)
     : Behaviour(parentObject, GetStaticID())
 {
+    Init();
 }
 //----------------------------------------
-PlayerController::~PlayerController(void)
+ObjectFlags::~ObjectFlags(void)
 {
-    MEngine* engine = MEngine::getInstance();
-    if(MGame* game = engine->getGame())
+}
+//----------------------------------------
+void ObjectFlags::Init()
+{
+    RegisterVariable(MVariable("Flags", &m_flags.m_flagString, M_VARIABLE_STRING));
+}
+//----------------------------------------
+const ObjectFlags::Flags::flagSet& ObjectFlags::GetFlags()
+{
+    m_flags.Parse();
+    return m_flags.m_flags;
+}
+//----------------------------------------
+// Flags
+//----------------------------------------
+void ObjectFlags::Flags::Parse()
+{
+    if(m_dirty)
     {
-	AquaGame* aquaGame = (AquaGame*)game;
-	aquaGame->DetachObserver(this);
+	m_dirty = false;
+
+	tokenizer_t tok = tokenizer(m_flagString.getData(), ",", TOKENIZER_EMPTIES_OK);
+	const char* token;
+	for(token = tokenize(&tok); token; token = tokenize(&tok))
+	    m_flags.insert(Util::Hash(token));
+	free_tokenizer(&tok);
     }
 }
 //----------------------------------------
-void PlayerController::Update()
+bool ObjectFlags::Flags::Contains(flag check) const
 {
-    MEngine* engine = MEngine::getInstance();
-    if(MGame* game = engine->getGame())
-    {
-	AquaGame* aquaGame = (AquaGame*)game;
-
-	aquaGame->GetPostProcessor()->GetShader()->SetValue("Depth", getParentObject()->getPosition().y);
-    }
-
-    UpdateStateMachine();
+    return m_flags.find(check) != m_flags.end();
 }
 //----------------------------------------
-void PlayerController::OnMessage(Message message, int param1)
+bool ObjectFlags::Flags::Intersects(ObjectFlags::Flags check) const
 {
+    for(flagSetConstIter iFlag = m_flags.begin(); iFlag != m_flags.end(); iFlag++)
+	if(Contains(*iFlag))
+	    return true;
+    return false;
 }
