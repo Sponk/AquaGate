@@ -34,8 +34,7 @@
 #define __OBJECT_FLAGS_H__
 
 #include "System/BehaviourDB.h"
-
-#include <set>
+#include "Util/Flags.h"
 
 //----------------------------------------
 // ObjectFlags
@@ -53,26 +52,6 @@ public:
 	void Update(){}
 
 	IMPLEMENT_BEHAVIOUR(ObjectFlags);
-
-	class Flags
-	{
-	public:
-	    Flags()
-		: m_dirty(true) {}
-	    typedef unsigned int            flag;
-	    typedef std::set<flag>          flagSet;
-	    typedef flagSet::iterator       flagSetIter;
-	    typedef flagSet::const_iterator flagSetConstIter;
-	    
-	    flagSet m_flags;
-	    MString m_flagString;
-
-	    void Parse();
-	    bool Contains(flag check) const;
-	    bool Intersects(Flags check) const;
-	private:
-	    bool m_dirty;
-	};
 
 	const Flags::flagSet& GetFlags();
 private:

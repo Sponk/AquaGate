@@ -113,6 +113,12 @@ public:
 	// if one exists, otherwise returning null.
 	Behaviour* GetBehaviour(MObject3d* obj, Behaviour::ID id);
 
+	template <class T>
+	T* GetBehaviour(MObject3d* obj)
+	{
+	    return (T*)GetBehaviour(obj, T::GetStaticID());
+	}
+
 	// In order for the database to know the behaviour exists, 
 	// we need to register it, but also, afterwards, we'll need
 	// to remove it, otherwise we could potentially be returning

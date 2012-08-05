@@ -1,5 +1,5 @@
-/* ScriptBehaviour.h
-  version 0.0.2, August 2nd, 2012
+/* ObjectFlags.cpp
+  version 0.0.2, August 2st, 2012
 
   Copyright (C) 2012 Philipp Geyer
 
@@ -23,47 +23,50 @@
 */
 
 /* Changelog
-   0.0.2 - 01.08.2012 - Renamed to ScriptBehaviour. Added state machine
+   0.0.2 - 01.08.2012 - Renamed to ObjectFlags. Added state machine
                         skeleton to handle controlling the player. - PG
    0.0.1 - 12.02.2012 - Implemented as TuturialBehaviour for 
                         http://nistur.com - PG
 */
 
+#include "ObjectFlags.h"
+#include "Util/Util.h"
 
-#ifndef __SCRIPT_BEHAVIOUR_H__
-#define __SCRIPT_BEHAVIOUR_H__
+#include <MEngine.h>
 
-#include "System/Timer.h"
+REGISTER_BEHAVIOUR(ObjectFlags);
 
-#include "System/MessageSystem.h"
+//----------------------------------------
+// quick defines
+//----------------------------------------
 
-#include "System/BehaviourDB.h"
-
-//--------------------------------------------
-// ScriptBehaviour
-//--------------------------------------------
-class ScriptBehaviour : public Behaviour, public Observer
+//----------------------------------------
+// ObjectFlags
+//----------------------------------------
+ObjectFlags::ObjectFlags(MObject3d * parentObject)
+    : Behaviour(parentObject, GetStaticID())
 {
-public:
-	ScriptBehaviour(MObject3d * parentObject);
-	ScriptBehaviour(ScriptBehaviour & behavior, MObject3d * parentObject);
-	~ScriptBehaviour();
-	
-	//----------------------------------------
-	// Behaviour virtuals
-	//----------------------------------------
-	void Update();
-
-	//----------------------------------------
-	// Observer virtuals
-	//----------------------------------------
-	void OnMessage(Message message, int param1);
-
-	IMPLEMENT_BEHAVIOUR(ScriptBehaviour);
-private:
-	void Init();
-
-	MString m_FunctionName;
-};
-
-#endif /*__SCRIPT_BEHAVIOUR_H__*/
+    Init();
+}
+//----------------------------------------
+ObjectFlags::ObjectFlags(ObjectFlags & behavior, 
+				   MObject3d * parentObject)
+    : Behaviour(parentObject, GetStaticID())
+{
+    Init();
+}
+//----------------------------------------
+ObjectFlags::~ObjectFlags(void)
+{
+}
+//----------------------------------------
+void ObjectFlags::Init()
+{
+    RegisterVariable(MVariable("Flags", &m_flags.m_flagString, M_VARIABLE_STRING));
+}
+//----------------------------------------
+const Flags::flagSet& ObjectFlags::GetFlags()
+{
+    m_flags.Parse();
+    return m_flags.m_flags;
+}

@@ -39,8 +39,6 @@ class MessageSystem
 public:
 	MessageSystem();
 	Message RegisterMessage(const char* message);
-private:
-	Message m_CurrID;
 };
 
 // RegisterMessage
@@ -103,6 +101,38 @@ private:
 	typedef observerVec::iterator	observerVecIter;
 
 	observerVec		m_Observers;
+};
+
+//----------------------------------------
+// Broadcaster
+// 
+// Acts as a relay for messages between
+// entities
+//----------------------------------------
+#include "BehaviourDB.h"
+class Broadcaster : public Subject, public Observer, public Behaviour
+{
+ public:
+  Broadcaster(MObject3d * parentObject);
+  Broadcaster(Broadcaster & behavior, MObject3d * parentObject);
+  ~Broadcaster();
+  
+  //--------------------------------
+  // Behaviour virtuals
+  //--------------------------------
+  void Update(){}
+  IMPLEMENT_BEHAVIOUR(Broadcaster);
+  
+  //--------------------------------
+  // Observer virtuals
+  //--------------------------------
+  void OnMessage(Message message, int param);
+  
+  //--------------------------------
+  // Observer virtuals
+  //--------------------------------
+  static void Broadcast(MObject3d* obj, Message message, int param = 0);
+  static void Broadcast(int objID, Message message, int param = 0);
 };
 
 #endif /*__MESSAGE_SYSTEM_H__*/

@@ -27,6 +27,7 @@
 
 // Project includes
 #include "AquaGame.h"
+#include "Util/Util.h"
 
 // Engine includes
 #include <MEngine.h>
@@ -35,26 +36,14 @@
 #include <algorithm> // std::find
 
 MessageSystem::MessageSystem()
-: m_CurrID(0)
 {
 }
 
 Message MessageSystem::RegisterMessage(const char* message)
 {
-	// For now, we're just going to do something very quick
-	// all we want is to have an ID that increases with
-	// every message registered
-	Message msg = m_CurrID;
-	m_CurrID++;
-	return msg;
-
-	// in future this should be extended to allow for error
-	// checking. This wouldn't be safe, for example, for a
-	// multiplayer game, there is no guarantee that messages
-	// get registered in the same order. A better solution
-	// would be to use a hash of the message name, but then
-	// in debug we'd want to do some tests to make sure that
-	// we don't have any clashes. For now, this will work.
+	// For now, we will just hash, we could look up to
+        // make sure we don't get has clashes...
+	return Util::Hash(message);
 }
 
 Message RegisterMessage(const char* message)
@@ -137,4 +126,39 @@ void Subject::SendMessage(Message message, int param)
 	{
 		(*iObserver)->OnMessage(message, param);
 	}
+}
+
+REGISTER_BEHAVIOUR(Broadcaster);
+Broadcaster::Broadcaster(MObject3d * parentObject)
+    : Behaviour(parentObject, GetStaticID())
+{
+}
+
+Broadcaster::Broadcaster(Broadcaster & behavior, MObject3d * parentObject)
+    : Behaviour(parentObject, GetStaticID())
+{
+}
+
+Broadcaster::~Broadcaster()
+{
+}
+
+void Broadcaster::OnMessage(Message message, int param)
+{
+  SendMessage(message, param);
+}
+
+void Broadcaster::Broadcast(MObject3d* obj, Message message, int param)
+{
+  if(Broadcaster* bc = GetBehaviourDB()->GetBehaviour<Broadcaster>(obj))
+    bc->OnMessage(message, param);
+}
+
+void Broadcaster::Broadcast(int objID, Message message, int param)
+{
+  MEngine* engine = MEngine::getInstance();
+  MLevel*  level  = engine ? engine->getLevel() : 0;
+  MScene*  scene  = level ? level->getCurrentScene() : 0;
+  if(scene)
+    Broadcast(scene->getObjectByIndex(objID), message, param);
 }
