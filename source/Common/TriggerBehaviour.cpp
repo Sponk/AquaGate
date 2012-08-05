@@ -34,6 +34,7 @@ http://nistur.com - PG
 #include "Util/Util.h"
 
 #include <MEngine.h>
+#include <algorithm>
 
 REGISTER_BEHAVIOUR(TriggerBehaviour);
 //----------------------------------------
@@ -87,28 +88,36 @@ void TriggerBehaviour::Update()
         int numCollisions = physics->isObjectInCollision(m_physicsObject->getCollisionObjectId(), collisionList, MAX_COLLISION);
 
         for(int i=0; i<MIN(numCollisions, MAX_COLLISION); ++i)
-            collisionSet.insert((MObject3d*)physics->getObjectUserPointer(collisionList[i]));
+            collisionSet.push_back((MObject3d*)physics->getObjectUserPointer(collisionList[i]));
     }
 
-    for(objectSetIter iObj = collisionSet.begin(); iObj != collisionSet.end(); ++iObj)
+    if(collisionSet.size() > 0)
     {
-        if(m_contents.find(*iObj) == m_contents.end())
+        for(objectSetIter iObj = collisionSet.begin(); iObj != collisionSet.end(); ++iObj)
         {
-            m_contents.insert(*iObj);
-            Broadcaster::Broadcast(*iObj, MSG_TRIGGER_ENTER, signal);
-            CallScript("onTriggerEnter", *iObj, m_signal.getData());
+            if(std::find(m_contents.begin(), m_contents.end(), *iObj) == m_contents.end())
+            {
+                m_contents.push_back(*iObj);
+                Broadcaster::Broadcast(*iObj, MSG_TRIGGER_ENTER, signal);
+                CallScript("onTriggerEnter", *iObj, m_signal.getData());
+            }
         }
     }
 
-    for(objectSetIter iObj = m_contents.begin(); iObj != m_contents.end(); ++iObj)
+    if(m_contents.size() > 0)
     {
-        if(collisionSet.find(*iObj) == collisionSet.end())
+        for(unsigned int i = 0; i < m_contents.size(); )
         {
-            objectSetIter toErase = iObj;
-            --iObj;
-            m_contents.erase(toErase);
-            Broadcaster::Broadcast(*iObj, MSG_TRIGGER_EXIT, signal);
-            CallScript("onTriggerExit", *iObj, m_signal.getData());
+            MObject3d* pObj = m_contents[i];
+            if(std::find(collisionSet.begin(), collisionSet.end(), pObj) == collisionSet.end())
+            {
+                Broadcaster::Broadcast(pObj, MSG_TRIGGER_EXIT, signal);
+                CallScript("onTriggerExit", pObj, m_signal.getData());
+
+                m_contents.erase(std::find(m_contents.begin(), m_contents.end(), pObj));
+                continue;
+            }
+            ++i;
         }
     }
 }

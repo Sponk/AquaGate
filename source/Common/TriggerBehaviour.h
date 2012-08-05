@@ -37,7 +37,7 @@
 #include "System/BehaviourDB.h"
 #include "Util/Flags.h"
 
-#include <set>
+#include <vector>
 
 //----------------------------------------
 // Messages
@@ -67,7 +67,7 @@ private:
     void Init();
     void CallScript(const char* function, MObject3d* obj, const char* signal);
 
-    typedef std::set<MObject3d*> objectSet;
+    typedef std::vector<MObject3d*> objectSet;
     typedef objectSet::iterator  objectSetIter;
 
     MPhysicsProperties* m_physicsObject;
