@@ -73,12 +73,8 @@ void ScriptBehaviour::Update()
 {
     MEngine* engine = MEngine::getInstance();
     MScriptContext* script = engine->getScriptContext();
-    MScene* scene = engine->getLevel()->getCurrentScene();
 
-    unsigned int id;
-    scene->getObjectIndex(getParentObject()->getName(), &id);
-
-    script->pushInteger(id);
+    script->pushInteger((int)getParentObject());
     script->callFunction(m_FunctionName.getData());
 }
 //----------------------------------------

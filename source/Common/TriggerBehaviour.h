@@ -59,17 +59,20 @@ public:
     // Behaviour virtuals
     //--------------------------------
     void Update();
+    void Start();
 
     IMPLEMENT_BEHAVIOUR(TriggerBehaviour);
 
 private:
     void Init();
+    void CallScript(const char* function, MObject3d* obj, const char* signal);
 
     typedef std::set<MObject3d*> objectSet;
     typedef objectSet::iterator  objectSetIter;
 
     MPhysicsProperties* m_physicsObject;
     Flags               m_flags;
+    MString             m_signal;
     objectSet           m_contents;
 };
 

@@ -1,25 +1,25 @@
 /* MessageSystem.cpp
-  version 0.0.1, February 12th, 2012
+version 0.0.1, February 12th, 2012
 
-  Copyright (C) 2012 Philipp Geyer
+Copyright (C) 2012 Philipp Geyer
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
+This software is provided 'as-is', without any express or implied
+warranty.  In no event will the authors be held liable for any damages
+arising from the use of this software.
 
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
 
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
+1. The origin of this software must not be misrepresented; you must not
+claim that you wrote the original software. If you use this software
+in a product, an acknowledgment in the product documentation would be
+appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
 
-  Philipp Geyer
+Philipp Geyer
 */
 
 // Standard includes
@@ -41,91 +41,91 @@ MessageSystem::MessageSystem()
 
 Message MessageSystem::RegisterMessage(const char* message)
 {
-	// For now, we will just hash, we could look up to
-        // make sure we don't get has clashes...
-	return Util::Hash(message);
+    // For now, we will just hash, we could look up to
+    // make sure we don't get has clashes...
+    return Util::Hash(message);
 }
 
 Message RegisterMessage(const char* message)
 {
-	// This should just wrap up the RegisterMessage function
-	// inside the MessageSystem. Making the MessageSystem a
-	// singleton would reduce the need for this, but that
-	// would not allow us to be able to replace message
-	// systems at a later date.
-	MEngine* engine = MEngine::getInstance();
-	if(MGame* game = engine->getGame())
-	{
-		AquaGame* tutGame = (AquaGame*)game;
+    // This should just wrap up the RegisterMessage function
+    // inside the MessageSystem. Making the MessageSystem a
+    // singleton would reduce the need for this, but that
+    // would not allow us to be able to replace message
+    // systems at a later date.
+    MEngine* engine = MEngine::getInstance();
+    if(MGame* game = engine->getGame())
+    {
+        AquaGame* tutGame = (AquaGame*)game;
 
-		if(MessageSystem* sys = tutGame->GetMessageSystem())
-		{
-			return sys->RegisterMessage(message);
-		}
-	}
+        if(MessageSystem* sys = tutGame->GetMessageSystem())
+        {
+            return sys->RegisterMessage(message);
+        }
+    }
 
-	// Do we have a sensible fallback behaviour for if we
-	// don't have a message system? Nope. Probably best
-	// actually doing a simple incremented ID here to be
-	// safe.
-	return 0;
+    // Do we have a sensible fallback behaviour for if we
+    // don't have a message system? Nope. Probably best
+    // actually doing a simple incremented ID here to be
+    // safe.
+    return 0;
 }
 
 Observer::~Observer()
 {
     std::vector<Subject*>::iterator iSub;
     for(iSub = m_Subjects.begin(); iSub != m_Subjects.end(); ++iSub)
-	(*iSub)->DetachObserver(this);
-    
+        (*iSub)->DetachObserver(this);
+
     m_Subjects.clear();
 }
 
 void Observer::AttachToSubject(Subject* subject)
 {
     std::vector<Subject*>::iterator iSub = std::find(m_Subjects.begin(), m_Subjects.end(), subject);
-    
+
     if(iSub != m_Subjects.end())
-	m_Subjects.erase(iSub);
+        m_Subjects.erase(iSub);
 }
 
 void Subject::AttachObserver(Observer* observer)
 {
-	// if we're not already being observed by
-	// the one being added - then add to the list
-	if(std::find(   m_Observers.begin(),
-					m_Observers.end(),
-					observer) == m_Observers.end())
-	{
-		m_Observers.push_back(observer);
-	}
-	observer->AttachToSubject(this);
+    // if we're not already being observed by
+    // the one being added - then add to the list
+    if(std::find(   m_Observers.begin(),
+        m_Observers.end(),
+        observer) == m_Observers.end())
+    {
+        m_Observers.push_back(observer);
+    }
+    observer->AttachToSubject(this);
 }
 void Subject::DetachObserver(Observer* observer)
 {
-	// find the correct observer to remove
-	observerVecIter iObserver =
-		std::find(	m_Observers.begin(),
-					m_Observers.end(),
-					observer);
-	if(iObserver != m_Observers.end())
-	{
-		m_Observers.erase(iObserver);
-	}
+    // find the correct observer to remove
+    observerVecIter iObserver =
+        std::find(	m_Observers.begin(),
+        m_Observers.end(),
+        observer);
+    if(iObserver != m_Observers.end())
+    {
+        m_Observers.erase(iObserver);
+    }
 }
 void Subject::SendMessage(Message message, int param)
 {
-	// for now, we just send everything to everyone
-	// and let them deal with filtering. This isn't
-	// an ideal solution, we probably want to extend
-	// AttachObserver so we can subscribe to specific
-	// messages. 
-	observerVecIter iObserver;
-	for(iObserver = m_Observers.begin();
-		iObserver != m_Observers.end();
-		iObserver++)
-	{
-		(*iObserver)->OnMessage(message, param);
-	}
+    // for now, we just send everything to everyone
+    // and let them deal with filtering. This isn't
+    // an ideal solution, we probably want to extend
+    // AttachObserver so we can subscribe to specific
+    // messages. 
+    observerVecIter iObserver;
+    for(iObserver = m_Observers.begin();
+        iObserver != m_Observers.end();
+        iObserver++)
+    {
+        (*iObserver)->OnMessage(message, param);
+    }
 }
 
 REGISTER_BEHAVIOUR(Broadcaster);
@@ -145,20 +145,81 @@ Broadcaster::~Broadcaster()
 
 void Broadcaster::OnMessage(Message message, int param)
 {
-  SendMessage(message, param);
+    SendMessage(message, param);
 }
 
 void Broadcaster::Broadcast(MObject3d* obj, Message message, int param)
 {
-  if(Broadcaster* bc = GetBehaviourDB()->GetBehaviour<Broadcaster>(obj))
-    bc->OnMessage(message, param);
+    if(Broadcaster* bc = GetBehaviourDB()->GetBehaviour<Broadcaster>(obj))
+        bc->OnMessage(message, param);
 }
 
 void Broadcaster::Broadcast(int objID, Message message, int param)
 {
-  MEngine* engine = MEngine::getInstance();
-  MLevel*  level  = engine ? engine->getLevel() : 0;
-  MScene*  scene  = level ? level->getCurrentScene() : 0;
-  if(scene)
-    Broadcast(scene->getObjectByIndex(objID), message, param);
+    MEngine* engine = MEngine::getInstance();
+    MLevel*  level  = engine ? engine->getLevel() : 0;
+    MScene*  scene  = level ? level->getCurrentScene() : 0;
+    if(scene)
+        Broadcast(scene->getObjectByIndex(objID), message, param);
+}
+
+int OnMessage()
+{
+    MEngine* engine = MEngine::getInstance();
+    MScriptContext* script = engine->getScriptContext();
+
+    int num = script->getArgsNumber();
+    
+    MObject3d* obj   = (MObject3d*)script->getInteger(0);
+    const char* msg  =             script->getString (1);
+    int param        =  num > 2 ?  script->getInteger(2) : 0;
+
+    Message message = Util::Hash(msg);
+    Broadcaster::Broadcast(obj, message, param);
+
+    return 0;
+}
+
+class ScriptMessageInterchangeRegister
+{
+public:
+    ScriptMessageInterchangeRegister()
+    {
+        MEngine* engine = MEngine::getInstance();
+        MScriptContext* script = engine->getScriptContext();
+        script->addFunction("sendMessage", OnMessage);
+    }
+};
+ScriptMessageInterchangeRegister _register;
+
+REGISTER_BEHAVIOUR(ScriptMessageInterchange);
+ScriptMessageInterchange::ScriptMessageInterchange(MObject3d * parentObject)
+    : Behaviour(parentObject, GetStaticID())
+{
+}
+
+ScriptMessageInterchange::ScriptMessageInterchange(ScriptMessageInterchange & behavior, MObject3d * parentObject)
+    : Behaviour(parentObject, GetStaticID())
+{
+}
+
+ScriptMessageInterchange::~ScriptMessageInterchange()
+{
+}
+
+void ScriptMessageInterchange::OnMessage(Message message, int param)
+{
+    MEngine* engine = MEngine::getInstance();
+    MScriptContext* script = engine->getScriptContext();
+
+    script->pushInteger((int)getParentObject());
+    script->pushInteger(message);
+    script->pushInteger(param);
+    script->callFunction("onMessage");
+}
+
+void ScriptMessageInterchange::Start()
+{
+    if(Broadcaster* bc = GetBehaviour<Broadcaster>())
+        bc->AttachObserver(this);
 }

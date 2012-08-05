@@ -12,6 +12,7 @@ BehaviourDB* GetBehaviourDB() { return &g_BehaviourDB; }
 //--------------------------------------------
 Behaviour::Behaviour(MObject3d * parentObject, ID id)
 : MBehavior(parentObject) 
+, m_started(false)
 {
 	// On creation, we need to register ourselves
 	g_BehaviourDB.RegisterBehaviour(getParentObject(), this, id);
@@ -81,7 +82,17 @@ void Behaviour::update()
     MGame* game = engine->getGame();
     
     if(game == 0 || !game->isRunning())
-	return;
+    {
+        m_started = false;
+	    return;
+    }
+
+    if(!m_started)
+    {
+        Start();
+        m_started = true;
+    }
+
     Update();
 }
 //--------------------------------------------

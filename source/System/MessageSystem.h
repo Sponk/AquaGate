@@ -1,25 +1,25 @@
 /* MessageSystem.h
-  version 0.0.1, February 12th, 2012
+version 0.0.1, February 12th, 2012
 
-  Copyright (C) 2012 Philipp Geyer
+Copyright (C) 2012 Philipp Geyer
 
-  This software is provided 'as-is', without any express or implied
-  warranty.  In no event will the authors be held liable for any damages
-  arising from the use of this software.
+This software is provided 'as-is', without any express or implied
+warranty.  In no event will the authors be held liable for any damages
+arising from the use of this software.
 
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
 
-  1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
-  2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
-  3. This notice may not be removed or altered from any source distribution.
+1. The origin of this software must not be misrepresented; you must not
+claim that you wrote the original software. If you use this software
+in a product, an acknowledgment in the product documentation would be
+appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
 
-  Philipp Geyer
+Philipp Geyer
 */
 
 #ifndef __MESSAGE_SYSTEM_H__
@@ -37,8 +37,8 @@ typedef unsigned int Message;
 class MessageSystem
 {
 public:
-	MessageSystem();
-	Message RegisterMessage(const char* message);
+    MessageSystem();
+    Message RegisterMessage(const char* message);
 };
 
 // RegisterMessage
@@ -50,12 +50,12 @@ Message RegisterMessage(const char* message);
 // this macro should be used in header files to
 // expose messages you wish to be sent externally
 #define DECLARE_MESSAGE(msg) \
-	extern Message msg;
+    extern Message msg;
 
 // REGISTER_MESSAGE
 // this macro should go into the source file
 #define REGISTER_MESSAGE(msg) \
-	Message msg = RegisterMessage(#msg);
+    Message msg = RegisterMessage(#msg);
 
 #include <vector>
 
@@ -74,7 +74,7 @@ public:
     ~Observer();
 
     virtual void OnMessage(Message message, int param) = 0;
-    
+
     void AttachToSubject(Subject* subject);
 
 private:
@@ -90,17 +90,17 @@ private:
 class Subject
 {
 public:
-	void AttachObserver(Observer* observer);
-	void DetachObserver(Observer* observer);
+    void AttachObserver(Observer* observer);
+    void DetachObserver(Observer* observer);
 
 protected:
-	void SendMessage(Message message, int param = 0);
+    void SendMessage(Message message, int param = 0);
 
 private:
-	typedef std::vector<Observer*>	observerVec;
-	typedef observerVec::iterator	observerVecIter;
+    typedef std::vector<Observer*>	observerVec;
+    typedef observerVec::iterator	observerVecIter;
 
-	observerVec		m_Observers;
+    observerVec		m_Observers;
 };
 
 //----------------------------------------
@@ -112,27 +112,47 @@ private:
 #include "BehaviourDB.h"
 class Broadcaster : public Subject, public Observer, public Behaviour
 {
- public:
-  Broadcaster(MObject3d * parentObject);
-  Broadcaster(Broadcaster & behavior, MObject3d * parentObject);
-  ~Broadcaster();
-  
-  //--------------------------------
-  // Behaviour virtuals
-  //--------------------------------
-  void Update(){}
-  IMPLEMENT_BEHAVIOUR(Broadcaster);
-  
-  //--------------------------------
-  // Observer virtuals
-  //--------------------------------
-  void OnMessage(Message message, int param);
-  
-  //--------------------------------
-  // Observer virtuals
-  //--------------------------------
-  static void Broadcast(MObject3d* obj, Message message, int param = 0);
-  static void Broadcast(int objID, Message message, int param = 0);
+public:
+    Broadcaster(MObject3d * parentObject);
+    Broadcaster(Broadcaster & behavior, MObject3d * parentObject);
+    ~Broadcaster();
+
+    //--------------------------------
+    // Behaviour virtuals
+    //--------------------------------
+    void Update(){}
+    IMPLEMENT_BEHAVIOUR(Broadcaster);
+
+    //--------------------------------
+    // Observer virtuals
+    //--------------------------------
+    void OnMessage(Message message, int param);
+
+    //--------------------------------
+    // Static helper API
+    //--------------------------------
+    static void Broadcast(MObject3d* obj, Message message, int param = 0);
+    static void Broadcast(int objID, Message message, int param = 0);
+};
+
+class ScriptMessageInterchange : public Subject, public Observer, public Behaviour
+{
+public:
+    ScriptMessageInterchange(MObject3d * parentObject);
+    ScriptMessageInterchange(ScriptMessageInterchange & behavior, MObject3d * parentObject);
+    ~ScriptMessageInterchange();
+
+    //--------------------------------
+    // Behaviour virtuals
+    //--------------------------------
+    void Update(){}
+    void Start();
+    IMPLEMENT_BEHAVIOUR(ScriptMessageInterchange);
+
+    //--------------------------------
+    // Observer virtuals
+    //--------------------------------
+    void OnMessage(Message message, int param);
 };
 
 #endif /*__MESSAGE_SYSTEM_H__*/

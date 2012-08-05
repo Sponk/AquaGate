@@ -51,8 +51,10 @@ protected:
     void RegisterVariable(MVariable var);
     void UnregisterVariable(MVariable var);
 
+    virtual void Start() {}
     virtual void Update() = 0;
 private:
+    bool m_started;
     std::map<unsigned int, MVariable*> m_Variables;
 };
 
