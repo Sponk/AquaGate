@@ -215,7 +215,7 @@ void ScriptMessageInterchange::OnMessage(Message message, int param)
     script->pushInteger((int)getParentObject());
     script->pushInteger(message);
     script->pushInteger(param);
-    script->callFunction("onMessage");
+    script->callFunction("onMessage", 3);
 }
 
 void ScriptMessageInterchange::Start()

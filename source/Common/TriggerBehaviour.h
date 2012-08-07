@@ -65,6 +65,8 @@ public:
 
 private:
     void Init();
+    void HandleCollisionEnter(MObject3d* obj, unsigned int signal);
+    void HandleCollisionExit(MObject3d* obj, unsigned int signal);
     void CallScript(const char* function, MObject3d* obj, const char* signal);
 
     typedef std::vector<MObject3d*> objectSet;

@@ -75,7 +75,7 @@ void ScriptBehaviour::Update()
     MScriptContext* script = engine->getScriptContext();
 
     script->pushInteger((int)getParentObject());
-    script->callFunction(m_FunctionName.getData());
+    script->callFunction(m_FunctionName.getData(), 1);
 }
 //----------------------------------------
 void ScriptBehaviour::OnMessage(Message message, int param1)

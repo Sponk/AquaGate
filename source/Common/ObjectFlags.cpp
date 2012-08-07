@@ -65,7 +65,13 @@ void ObjectFlags::Init()
     RegisterVariable(MVariable("Flags", &m_flags.m_flagString, M_VARIABLE_STRING));
 }
 //----------------------------------------
-const Flags::flagSet& ObjectFlags::GetFlags()
+const Flags& ObjectFlags::GetFlags()
+{
+    m_flags.Parse();
+    return m_flags;
+}
+//----------------------------------------
+const Flags::flagSet& ObjectFlags::ExposeFlags()
 {
     m_flags.Parse();
     return m_flags.m_flags;
