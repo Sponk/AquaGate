@@ -15,12 +15,12 @@ class "MPhysics"
 			     local f = MVec3(...)
 			     addCentralForce(self.ent.id, {f.x, f.y, f.z}, "local")
 			  end,
-
+   
    addTorque = function(self, ...)
 		  local f = MVec3(...)
 		  addTorque(self.ent.id, {f.x, f.y, f.z})
 	       end,
-
+   
    addTorqueLocal = function(self, ...)
 		       local f = MVec3(...)
 		       addTorque(self.ent.id, {f.x, f.y, f.z}, "local")
@@ -31,7 +31,7 @@ class "MPhysics"
 		      end,
 
    setLinearDamping = function(self, ...)
-			 d = MVec3(...)
+			 local d = MVec3(...)
 			 return setLinearDamping(self.ent.id, {d.x, d.y, d.z})
 		      end,
 
