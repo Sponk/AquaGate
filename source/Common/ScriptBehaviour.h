@@ -40,7 +40,7 @@
 //--------------------------------------------
 // ScriptBehaviour
 //--------------------------------------------
-class ScriptBehaviour : public Behaviour, public Observer
+class ScriptBehaviour : public Behaviour
 {
 public:
 	ScriptBehaviour(MObject3d * parentObject);

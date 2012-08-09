@@ -47,7 +47,7 @@
 // Will give our happy little cube some
 // character
 //--------------------------------------------
-class PlayerController : public Behaviour, public Observer, public StateMachine
+class PlayerController : public Behaviour, public StateMachine
 {
 public:
 	PlayerController(MObject3d * parentObject);
@@ -62,7 +62,7 @@ public:
 	//----------------------------------------
 	// Observer virtuals
 	//----------------------------------------
-	void OnMessage(Message message, int param1);
+	void OnMessage(Message message, int param);
 
 	IMPLEMENT_BEHAVIOUR(PlayerController);
 private:

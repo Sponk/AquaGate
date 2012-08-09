@@ -28,6 +28,8 @@
 #include "Game/GameStateSplash.h"
 #include "Game/GameStateLobby.h"
 
+#include "Common/Script.h"
+
 //----------------------------------------
 // Messages
 //----------------------------------------
@@ -63,14 +65,20 @@ AquaGame::~AquaGame()
 //----------------------------------------
 void AquaGame::update()
 {
-	// tick the game clock
-	GameClock::Update();
-
-	m_InputManager.Update();
-	
-	UpdateStateMachine();
-	
-	MGame::update();
+    static bool firstUpdate = true;
+    if(firstUpdate)
+    {
+	RegisterScriptFunctions();
+	firstUpdate = false;
+    }
+    // tick the game clock
+    GameClock::Update();
+    
+    m_InputManager.Update();
+    
+    UpdateStateMachine();
+    
+    MGame::update();
 }
 //----------------------------------------
 void AquaGame::draw()

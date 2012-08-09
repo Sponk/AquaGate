@@ -96,6 +96,19 @@ void Behaviour::update()
     Update();
 }
 //--------------------------------------------
+void Behaviour::OnMessage(Message message, int param)
+{
+    std::map<Message, func>::iterator iFunc = m_Functions.find(message);
+    if(iFunc != m_Functions.end())
+	iFunc->second(param);
+}
+//--------------------------------------------
+void Behaviour::RegisterFunction(const char* name, func function)
+{
+    Message id = Util::Hash(name);
+    m_Functions[id] = function;
+}
+//--------------------------------------------
 // BehaviourDB
 //--------------------------------------------
 Behaviour::ID BehaviourDB::GetBehaviourID(const char* name)

@@ -8,7 +8,7 @@ class Flags
 {
  public:
  Flags()
-   : m_dirty(true), m_flagString("...") {}
+   : m_dirty(true), m_flagString("Default") {}
   typedef unsigned int            flag;
   typedef std::set<flag>          flagSet;
   typedef flagSet::iterator       flagSetIter;

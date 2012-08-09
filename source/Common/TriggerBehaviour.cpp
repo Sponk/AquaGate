@@ -30,8 +30,11 @@ http://nistur.com - PG
 */
 
 #include "TriggerBehaviour.h"
+
 #include "System/MessageSystem.h"
 #include "Util/Util.h"
+#include "ObjectFlags.h"
+#include "Broadcaster.h"
 
 #include <MEngine.h>
 #include <algorithm>
@@ -97,9 +100,7 @@ void TriggerBehaviour::Update()
         {
             if(std::find(m_contents.begin(), m_contents.end(), *iObj) == m_contents.end())
             {
-                m_contents.push_back(*iObj);
-                Broadcaster::Broadcast(*iObj, MSG_TRIGGER_ENTER, signal);
-                CallScript("onTriggerEnter", *iObj, m_signal.getData());
+		HandleCollisionEnter(*iObj, signal);
             }
         }
     }
@@ -111,10 +112,7 @@ void TriggerBehaviour::Update()
             MObject3d* pObj = m_contents[i];
             if(std::find(collisionSet.begin(), collisionSet.end(), pObj) == collisionSet.end())
             {
-                Broadcaster::Broadcast(pObj, MSG_TRIGGER_EXIT, signal);
-                CallScript("onTriggerExit", pObj, m_signal.getData());
-
-                m_contents.erase(std::find(m_contents.begin(), m_contents.end(), pObj));
+		HandleCollisionExit(pObj, signal);
                 continue;
             }
             ++i;
@@ -137,6 +135,39 @@ void TriggerBehaviour::Init()
         m_physicsObject = ((MOEntity*)obj)->getPhysicsProperties();
 }
 //----------------------------------------
+void TriggerBehaviour::HandleCollisionEnter(MObject3d* obj, unsigned int signal)
+{
+    static Flags::flag defaultFlag = Util::Hash("Default");
+
+    bool shouldTrigger = false;
+
+    if(m_flags.Contains(defaultFlag))
+    {
+	shouldTrigger = true;
+    }
+    else
+    {
+	ObjectFlags* flags = GetBehaviourDB()->GetBehaviour<ObjectFlags>(obj);
+	if(flags && flags->GetFlags().Intersects(m_flags))
+	    shouldTrigger = true;
+    }
+
+    if(shouldTrigger)
+    {
+	m_contents.push_back(obj);
+	Broadcaster::Broadcast(obj, MSG_TRIGGER_ENTER, signal);
+	CallScript("onTriggerEnter", obj, m_signal.getData());
+    }
+}
+//----------------------------------------
+void TriggerBehaviour::HandleCollisionExit(MObject3d* obj, unsigned int signal)
+{
+    Broadcaster::Broadcast(obj, MSG_TRIGGER_EXIT, signal);
+    CallScript("onTriggerExit", obj, m_signal.getData());
+    
+    m_contents.erase(std::find(m_contents.begin(), m_contents.end(), obj));
+}
+//----------------------------------------
 void TriggerBehaviour::CallScript(const char* function, MObject3d* obj, const char* signal)
 {
     MEngine* engine = MEngine::getInstance();
@@ -144,6 +175,6 @@ void TriggerBehaviour::CallScript(const char* function, MObject3d* obj, const ch
     {
         script->pushInteger((int)obj);
         script->pushString(signal);
-        script->callFunction(function);
+        script->callFunction(function, 2);
     }
 }

@@ -53,7 +53,8 @@ public:
 
 	IMPLEMENT_BEHAVIOUR(ObjectFlags);
 
-	const Flags::flagSet& GetFlags();
+	const Flags&          GetFlags();
+	const Flags::flagSet& ExposeFlags();
 private:
 	void Init();
 

@@ -87,6 +87,7 @@ void PlayerController::Update()
     UpdateStateMachine();
 }
 //----------------------------------------
-void PlayerController::OnMessage(Message message, int param1)
+void PlayerController::OnMessage(Message message, int param)
 {
+    Behaviour::OnMessage(message, param);
 }
