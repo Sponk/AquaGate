@@ -1,0 +1,23 @@
+# Visual Studio
+*.exp
+*.idb
+*.ilk
+*.lib
+*.pdb
+source/*.vcxproj*
+source/*.vcproj*
+source/*.sdf
+source/*.sln
+source/*.suo
+source/ipch/*
+source/obj/*
+
+# GNU Make
+source/Makefile
+source/*.make
+
+
+# OS stuff
+Thumbs.db
+Desktop.ini
+.DS_Store
