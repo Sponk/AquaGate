@@ -65,12 +65,6 @@ AquaGame::~AquaGame()
 //----------------------------------------
 void AquaGame::update()
 {
-    static bool firstUpdate = true;
-    if(firstUpdate)
-    {
-	RegisterScriptFunctions();
-	firstUpdate = false;
-    }
     // tick the game clock
     GameClock::Update();
     

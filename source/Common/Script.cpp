@@ -29,6 +29,7 @@ void RegisterScriptFunctions()
 
     if(script)
     {
+	printf("test\n");
 	script->addFunction("broadcastMessage", ScriptBroadcastMessage);
 	script->addFunction("getBehavior", ScriptGetBehaviour);
 	script->addFunction("getParentObject", ScriptGetParentObject);

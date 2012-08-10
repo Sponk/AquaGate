@@ -26,6 +26,13 @@ class "MVec3"
 		 end
 	      end,
 
+   __getattr__ = function(self, key)
+		    if key == 1 or key == "x" then return self.x
+		    elseif key == 2  or key == "y" then return self.y
+		    elseif key == 3  or key == "z" then return self.z
+		    else return end
+		 end,
+
    __add__ = function(self, other)
 		if classmatches(self, other) then
 		   return MVec3(self.x + other.x, self.y + other.y, self.z + other.z)

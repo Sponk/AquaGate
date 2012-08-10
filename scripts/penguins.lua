@@ -4,11 +4,16 @@ Player = getObject("Penguin")
 
 mx = getAxis("MOUSE_X")
 my = getAxis("MOUSE_Y")
+print("Starting Script")
 
 function onSceneUpdate()
+   if not Penguin then
+      print("First Script Update " .. getBehavior)
+      Penguin = MPhysics("Penguin")
+   end
 
    if isKeyPressed("UP") then
-      addCentralForce(Player, {0, 6, 0}, "local")
+      Penguin:addCentralForceLocal(0, 6, 0)
    end
    
    if isKeyPressed("DOWN") then
@@ -40,24 +45,12 @@ function onSceneUpdate()
    
    mx = getAxis("MOUSE_X")
    my = getAxis("MOUSE_Y")
-end
 
-
-
-function penguinUpdate(obj)
-   -- rotate Player (X mouse)
-   rotate(obj, {0, 0, -1}, dx*100)
-end
-
-function headUpdate(obj)
-   -- rotate Head (Y mouse)
-   rotate(obj, {-1, 0, 0}, dy*100, "local")
-   rotation = getRotation(obj)
-   if rotation[1] > 90 then
-      rotation[1] = 90
-   elseif rotation[1] < -90 then
-      rotation[1] = -90
+   if not cam then
+      cam = MCamera("Camera0")
+      col = cam:getClearColor()
+      print("Col: r(" .. col.r .. ") g(" .. col.g .. ") b(" .. col.b .. ")")
+      cam:setClearColor(0, 255, 128)
    end
-   
-   setRotation(obj, rotation)
+
 end

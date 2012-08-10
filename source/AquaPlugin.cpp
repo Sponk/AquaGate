@@ -27,6 +27,7 @@
 
 // Project includes
 #include "AquaGame.h"
+#include "Common/Script.h"
 
 // System includes
 
@@ -41,6 +42,9 @@ void StartPlugin()
 	s_prevGame = engine->getGame();
 	s_tutGame = new AquaGame;
 	engine->setGame(s_tutGame);
+
+
+	RegisterScriptFunctions();
 }
 
 void EndPlugin()
