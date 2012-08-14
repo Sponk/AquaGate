@@ -4,7 +4,7 @@
 
 <Textures num="5">
 	<Texture id="0">
-		<image filename="E:\Blender [Library]\Skyboxes\..\..\Textures [Skybox]\sky18\sky1\frontred2.jpg" mipmap="1" />
+		<image filename="..\maps\frontred2.jpg" mipmap="1" />
 		<mapMode value="1" />
 		<tile u="repeat" v="repeat" />
 		<translate x="0.000000" y="0.000000" />
@@ -12,7 +12,7 @@
 		<rotate angle="0.000000" />
 	</Texture>
 	<Texture id="1">
-		<image filename="E:\Blender [Library]\Skyboxes\..\..\Textures [Skybox]\sky18\sky1\leftred2.jpg" mipmap="1" />
+		<image filename="..\maps\leftred2.jpg" mipmap="1" />
 		<mapMode value="1" />
 		<tile u="repeat" v="repeat" />
 		<translate x="0.000000" y="0.000000" />
@@ -20,7 +20,7 @@
 		<rotate angle="0.000000" />
 	</Texture>
 	<Texture id="2">
-		<image filename="E:\Blender [Library]\Skyboxes\..\..\Textures [Skybox]\sky18\sky1\backred2.jpg" mipmap="1" />
+		<image filename="..\maps\backred2.jpg" mipmap="1" />
 		<mapMode value="1" />
 		<tile u="repeat" v="repeat" />
 		<translate x="0.000000" y="0.000000" />
@@ -28,7 +28,7 @@
 		<rotate angle="0.000000" />
 	</Texture>
 	<Texture id="3">
-		<image filename="E:\Blender [Library]\Skyboxes\..\..\Textures [Skybox]\sky18\sky1\rightred2.jpg" mipmap="1" />
+		<image filename="..\maps\rightred2.jpg" mipmap="1" />
 		<mapMode value="1" />
 		<tile u="repeat" v="repeat" />
 		<translate x="0.000000" y="0.000000" />
@@ -36,7 +36,7 @@
 		<rotate angle="0.000000" />
 	</Texture>
 	<Texture id="4">
-		<image filename="E:\Blender [Library]\Skyboxes\..\..\Textures [Skybox]\sky18\sky1\topred2.jpg" mipmap="1" />
+		<image filename="..\maps\topred2.jpg" mipmap="1" />
 		<mapMode value="1" />
 		<tile u="repeat" v="repeat" />
 		<translate x="0.000000" y="0.000000" />

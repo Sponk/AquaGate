@@ -13,7 +13,7 @@
 
 <Textures num="1">
 	<Texture id="0">
-		<image filename="D:\[L3DT Terrains]\Terrain One\One_exported_TX.jpg" mipmap="1" />
+		<image filename="..\maps\One_exported_TX.jpg" mipmap="1" />
 		<mapMode value="1" />
 		<tile u="repeat" v="repeat" />
 		<translate x="0.000000" y="0.000000" />
