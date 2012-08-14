@@ -6,7 +6,7 @@
 
 	<Scene name="Scene-1">
 
-		<script file="../scripts/penguins.lua" />
+		<script file="../scripts/Pingu.lua" />
 		<properties 
 			data="Static"
 			gravity="0.000000 0.000000 0.000000" />
@@ -14,11 +14,12 @@
 		<Light name="Light0">
 			<active value="true" />
 			<transform 
-				position="0.000000 7.023611 14.470843"
+				parent="bounding"
+				position="-0.263274 1.842260 55.247177"
 				rotation="-37.390018 0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				scale="1.000000 0.842776 0.989440" />
 			<properties 
-				radius="500.000000"
+				radius="2000.000000"
 				color="1.000000 1.000000 1.000000"
 				intensity="2.000000"
 				spotAngle="180.000000"
@@ -28,151 +29,113 @@
 		<Camera name="Camera0">
 			<active value="true" />
 			<transform 
-				parent="Head"
-				position="11.922252 -43.080505 9.876125"
+				parent="bounding"
+				position="-0.000006 -39.676151 7.498633"
 				rotation="75.968185 -0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				scale="1.000000 1.138532 0.626904" />
 			<properties 
-				clearColor="0.200000 0.300000 0.400000"
+				clearColor="0.000000 0.150000 0.300000"
 				ortho="false"
 				fov="60.000000"
 				clippingNear="1.000000"
-				clippingFar="1000.000000"
-				fog="false"
-				fogDistance="0.000000" />
+				clippingFar="4000.000000"
+				fog="true"
+				fogDistance="1000.000000" />
 		</Camera>
-		<Entity name="Penguin" file="../meshs/penguin.mesh">
-			<BoundingBox min="-4.485507 -6.864705 -4.969402" max="4.473985 5.575308 10.819089" />
+		<Entity name="pingu" file="../meshs/MisterPingu_T2.mesh">
+			<BoundingBox min="-4.698719 -4.392471 -8.225489" max="4.653897 4.281837 8.890907" />
 			<anim id="0" />
 			<active value="true" />
 			<transform 
-				position="-0.132881 0.000000 0.000000"
-				rotation="0.000000 -0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				parent="bounding"
+				position="0.000000 0.000000 0.000000"
+				rotation="90.000000 -0.000002 180.000000"
+				scale="1.000000 1.164658 0.576918" />
 			<properties 
 				invisible="false" />
+		</Entity>
+		<Entity name="skybox" file="../meshs/Skybox_v18.mesh">
+			<BoundingBox min="-4.801738 -4.801739 -4.801736" max="4.801738 4.801738 4.801736" />
+			<anim id="0" />
+			<active value="true" />
+			<transform 
+				position="-0.000006 -68.772659 6.438484"
+				rotation="0.000000 -0.000000 0.000000"
+				scale="212.662216 212.662216 212.662216" />
+			<properties 
+				invisible="true" />
+			<Behavior name="Follow">
+				<properties 
+					target="Camera0"
+					delay="0.000000"
+					offset="0.000000 0.000000 0.000000"
+					local="false" />
+			</Behavior>
+		</Entity>
+		<Entity name="bounding" file="../meshs/box.mesh">
+			<BoundingBox min="-5.000000 -5.000000 -5.000000" max="5.000000 5.000000 5.000000" />
+			<anim id="0" />
+			<active value="true" />
+			<transform 
+				position="0.000000 0.000000 0.000000"
+				rotation="0.000000 -0.000000 0.000000"
+				scale="1.000000 1.733350 0.858621" />
+			<properties 
+				invisible="true" />
 			<physics 
-				shape="Capsule"
+				shape="Box"
 				ghost="false"
-				mass="1.000000"
+				mass="0.100000"
 				friction="0.500000"
 				restitution="0.000000"
-				linearDamping="0.800000"
+				linearDamping="0.010000"
 				angularDamping="0.010000"
 				angularFactor="1.000000"
 				linearFactor="1.000000 1.000000 1.000000" />
-			<Behavior name="PlayerController">
-				<properties 
- />
-			</Behavior>
-			<Behavior name="ObjectFlags">
-				<properties 
-					Flags="Player,Something" />
-			</Behavior>
 		</Entity>
 		<Entity name="Entity0" file="../meshs/box.mesh">
 			<BoundingBox min="-5.000000 -5.000000 -5.000000" max="5.000000 5.000000 5.000000" />
 			<anim id="0" />
 			<active value="true" />
 			<transform 
-				position="0.000000 27.918600 0.000000"
+				position="-60.003124 92.954781 0.000000"
 				rotation="0.000000 -0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				scale="5.493197 5.493197 5.493197" />
 			<properties 
 				invisible="false" />
-			<physics 
-				shape="Box"
-				ghost="false"
-				mass="0.000000"
-				friction="0.500000"
-				restitution="0.000000"
-				linearDamping="0.010000"
-				angularDamping="0.010000"
-				angularFactor="1.000000"
-				linearFactor="1.000000 1.000000 1.000000" />
 		</Entity>
-		<Entity name="Head" file="../meshs/box.mesh">
-			<BoundingBox min="-5.000000 -5.000000 -5.000000" max="5.000000 5.000000 5.000000" />
+		<Entity name="Entity1" file="../meshs/Brouillard.mesh">
+			<BoundingBox min="-15.766870 -11.825152 0.000000" max="15.766870 11.825152 0.000000" />
 			<anim id="0" />
 			<active value="true" />
 			<transform 
-				parent="Penguin"
-				position="0.000000 0.000000 8.820452"
+				position="-0.000006 -0.804047 107.646942"
 				rotation="0.000000 -0.000000 0.000000"
-				scale="0.425335 0.369497 0.365357" />
-			<properties 
-				invisible="true" />
-			<Behavior name="ScriptBehaviour">
-				<properties 
-					Function="penguinUpdate" />
-			</Behavior>
-		</Entity>
-		<Entity name="Entity1" file="../meshs/box.mesh">
-			<BoundingBox min="-5.000000 -5.000000 -5.000000" max="5.000000 5.000000 5.000000" />
-			<anim id="0" />
-			<active value="true" />
-			<transform 
-				position="12.770188 40.681934 7.723165"
-				rotation="0.000000 -0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				scale="8.507653 8.507653 8.507653" />
 			<properties 
 				invisible="false" />
-			<physics 
-				shape="Box"
-				ghost="false"
-				mass="0.000000"
-				friction="0.500000"
-				restitution="0.000000"
-				linearDamping="0.010000"
-				angularDamping="0.010000"
-				angularFactor="1.000000"
-				linearFactor="1.000000 1.000000 1.000000" />
 		</Entity>
-		<Entity name="Entity2" file="../meshs/box.mesh">
-			<BoundingBox min="-5.000000 -5.000000 -5.000000" max="5.000000 5.000000 5.000000" />
+		<Entity name="Entity2" file="../meshs/Brouillard.mesh">
+			<BoundingBox min="-15.766870 -11.825152 0.000000" max="15.766870 11.825152 0.000000" />
 			<anim id="0" />
 			<active value="true" />
 			<transform 
-				position="-12.094633 20.481796 -15.268189"
-				rotation="0.000000 -0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				position="-0.000006 -0.804047 104.124435"
+				rotation="0.000000 -0.000000 -180.000000"
+				scale="8.507653 8.507653 8.507653" />
 			<properties 
 				invisible="false" />
-			<physics 
-				shape="Box"
-				ghost="false"
-				mass="0.000000"
-				friction="0.500000"
-				restitution="0.000000"
-				linearDamping="0.010000"
-				angularDamping="0.010000"
-				angularFactor="1.000000"
-				linearFactor="1.000000 1.000000 1.000000" />
 		</Entity>
-		<Entity name="TriggerTest" file="../meshs/box.mesh">
-			<BoundingBox min="-5.000000 -5.000000 -5.000000" max="5.000000 5.000000 5.000000" />
+		<Entity name="Entity3" file="../meshs/PinguTerrain.mesh">
+			<BoundingBox min="-1831.191284 -1831.191284 -143.493958" max="1827.614746 1831.191406 643.493713" />
 			<anim id="0" />
 			<active value="true" />
 			<transform 
-				position="0.000000 13.575566 0.000000"
+				position="-0.242692 6.909842 -453.838898"
 				rotation="0.000000 -0.000000 0.000000"
-				scale="1.000000 1.000000 1.000000" />
+				scale="2.767128 2.767128 2.767128" />
 			<properties 
-				invisible="true" />
-			<physics 
-				shape="Box"
-				ghost="true"
-				mass="0.000000"
-				friction="0.500000"
-				restitution="0.000000"
-				linearDamping="0.010000"
-				angularDamping="0.010000"
-				angularFactor="1.000000"
-				linearFactor="1.000000 1.000000 1.000000" />
-			<Behavior name="TriggerBehaviour">
-				<properties 
-					Flags="Player,Something" />
-			</Behavior>
+				invisible="false" />
 		</Entity>
 
 	</Scene>

@@ -1,0 +1,92 @@
+<Maratis>
+
+<MaterialAnim num="5">
+
+	<Material id="0">
+		<opacity num="1">
+			<k t="250" value="1.000000" />
+		</opacity>
+		<shininess num="1">
+			<k t="250" value="50.000000" />
+		</shininess>
+		<diffuseColor num="1">
+			<k t="250" x="0.800000" y="0.800000" z="0.800000" />
+		</diffuseColor>
+		<specularColor num="1">
+			<k t="250" x="0.500000" y="0.500000" z="0.500000" />
+		</specularColor>
+		<emitColor num="1">
+			<k t="250" x="0.888000" y="0.888000" z="0.888000" />
+		</emitColor>
+	</Material>
+	<Material id="1">
+		<opacity num="1">
+			<k t="250" value="1.000000" />
+		</opacity>
+		<shininess num="1">
+			<k t="250" value="50.000000" />
+		</shininess>
+		<diffuseColor num="1">
+			<k t="250" x="0.800000" y="0.800000" z="0.800000" />
+		</diffuseColor>
+		<specularColor num="1">
+			<k t="250" x="0.500000" y="0.500000" z="0.500000" />
+		</specularColor>
+		<emitColor num="1">
+			<k t="250" x="0.888000" y="0.888000" z="0.888000" />
+		</emitColor>
+	</Material>
+	<Material id="2">
+		<opacity num="1">
+			<k t="250" value="1.000000" />
+		</opacity>
+		<shininess num="1">
+			<k t="250" value="50.000000" />
+		</shininess>
+		<diffuseColor num="1">
+			<k t="250" x="0.800000" y="0.800000" z="0.800000" />
+		</diffuseColor>
+		<specularColor num="1">
+			<k t="250" x="0.500000" y="0.500000" z="0.500000" />
+		</specularColor>
+		<emitColor num="1">
+			<k t="250" x="0.888000" y="0.888000" z="0.888000" />
+		</emitColor>
+	</Material>
+	<Material id="3">
+		<opacity num="1">
+			<k t="250" value="1.000000" />
+		</opacity>
+		<shininess num="1">
+			<k t="250" value="50.000000" />
+		</shininess>
+		<diffuseColor num="1">
+			<k t="250" x="0.800000" y="0.800000" z="0.800000" />
+		</diffuseColor>
+		<specularColor num="1">
+			<k t="250" x="0.500000" y="0.500000" z="0.500000" />
+		</specularColor>
+		<emitColor num="1">
+			<k t="250" x="0.888000" y="0.888000" z="0.888000" />
+		</emitColor>
+	</Material>
+	<Material id="4">
+		<opacity num="1">
+			<k t="250" value="1.000000" />
+		</opacity>
+		<shininess num="1">
+			<k t="250" value="50.000000" />
+		</shininess>
+		<diffuseColor num="1">
+			<k t="250" x="0.800000" y="0.800000" z="0.800000" />
+		</diffuseColor>
+		<specularColor num="1">
+			<k t="250" x="0.500000" y="0.500000" z="0.500000" />
+		</specularColor>
+		<emitColor num="1">
+			<k t="250" x="0.888000" y="0.888000" z="0.888000" />
+		</emitColor>
+	</Material>
+</MaterialAnim>
+
+</Maratis>
